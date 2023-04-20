@@ -13,5 +13,10 @@
         <property name="hbm2ddl.auto">create</property>
 
         <property name="show_sql">true</property>
+
+        <mapping class="com.bdg.persistent.Address"/>
+        <mapping class="com.bdg.persistent.Company"/>
+        <mapping class="com.bdg.persistent.Passenger"/>
+        <mapping class="com.bdg.persistent.Trip"/>
     </session-factory>
 </hibernate-configuration>
