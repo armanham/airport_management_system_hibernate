@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 public class Trip {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int tripNumber;
 
     @OneToOne(fetch = FetchType.LAZY)
