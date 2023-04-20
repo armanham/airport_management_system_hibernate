@@ -3,6 +3,7 @@ package com.bdg.insert_into_db;
 import com.bdg.persistent.Address;
 import com.bdg.persistent.Company;
 import com.bdg.persistent.Passenger;
+import com.bdg.persistent.Trip;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -12,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -105,9 +107,9 @@ public class Inserter {
                 String line = lines.get(i);
                 String[] fields = line.split(",");
 
-                String hql = "select ad from Address ad where ad.id = :id";
+                String hql = "select ad from Address ad where ad.id = :address_id";
                 Query<Address> query = session.createQuery(hql);
-                query.setParameter("id", Integer.parseInt(fields[2]));
+                query.setParameter("address_id", Integer.parseInt(fields[2]));
 
                 List<Address> result = query.getResultList();
                 if (result.isEmpty()){
@@ -129,42 +131,47 @@ public class Inserter {
             throw new RuntimeException(e);
         }
     }
-//
-//
-//    public void insertTripTable() {
-//
-//        PreparedStatement pst = null;
-//
-//        try {
-//            List<String> lines = readLinesOfFileFrom(PATH_TRIP_TXT);
-//
-//            for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
-//                String line = lines.get(i);
-//                String[] fields = line.split(",");
-//
-//                pst = con.prepareStatement(INSERT_INTO_TRIP_SQL);
-//
-//                pst.setInt(1, Integer.parseInt(fields[0]));
-//                pst.setInt(2, Integer.parseInt(fields[1]));
-//                pst.setString(3, fields[2]);
-//                pst.setString(4, fields[3]);
-//                pst.setString(5, fields[4]);
-//                pst.setTimestamp(6, Timestamp.valueOf(fields[5]));
-//                pst.setTimestamp(7, Timestamp.valueOf(fields[6]));
-//
-//                pst.executeUpdate();
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        } finally {
-//            try {
-//                assert pst != null;
-//                pst.close();
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//    }
+
+
+    public void insertTripTable() {
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            List<String> lines = readLinesOfFileFrom(PATH_TRIP_TXT);
+
+            for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
+                String line = lines.get(i);
+                String[] fields = line.split(",");
+
+                String hql = "select c from Company c where c.id = :company_id";
+                Query<Company> query = session.createQuery(hql);
+                query.setParameter("company_id", Integer.parseInt(fields[1]));
+
+                List<Company> result = query.getResultList();
+                if (result.isEmpty()){
+                    return;
+                }
+
+                Trip trip = new Trip();
+                trip.setTripNumber(Integer.parseInt(fields[0]));
+                trip.setAirplane(fields[2]);
+                trip.setTimeIn(Timestamp.valueOf(fields[5]));
+                trip.setTimeOut(Timestamp.valueOf(fields[6]));
+                trip.setTownFrom(fields[3]);
+                trip.setTownTo(fields[4]);
+                trip.setCompany(result.get(0));
+
+                session.save(trip);
+            }
+
+            transaction.commit();
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            throw new RuntimeException(e);
+        }
+    }
 //
 //
 //    public void insertPassInTripTable() {
