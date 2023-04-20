@@ -1,7 +1,6 @@
 package com.bdg.persistent;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -15,7 +14,7 @@ public class Company {
     @Column(nullable = false, length = 24)
     private String name;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "found_date", nullable = false, updatable = false)
     private Date foundDate;
 
     public Company() {

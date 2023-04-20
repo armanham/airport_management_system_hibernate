@@ -1,6 +1,6 @@
 package com.bdg.persistent;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "passenger")
@@ -16,9 +16,8 @@ public class Passenger {
     @Column(nullable = false, length = 24, unique = true)
     private String phone;
 
-    @Column(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     private Address address;
 
     public Passenger() {

@@ -1,6 +1,6 @@
 package com.bdg.persistent;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "address")

@@ -1,6 +1,6 @@
 package com.bdg.persistent;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.sql.Timestamp;
 
@@ -22,7 +22,7 @@ public class Trip {
     @Column(name = "town_from", nullable = false, length = 24)
     private String townFrom;
 
-    @Column(name = "town_from", nullable = false, length = 24)
+    @Column(name = "town_to", nullable = false, length = 24)
     private String townTo;
 
     @Column(name = "time_out", nullable = false)
