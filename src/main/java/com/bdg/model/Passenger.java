@@ -7,15 +7,6 @@ public class Passenger {
     private String phone;
     private Address address;
 
-    public Passenger(final int id,
-                     final String name,
-                     final String phone,
-                     final Address address) {
-        setId(id);
-        setName(name);
-        setPhone(phone);
-        setAddress(address);
-    }
 
     public Passenger(final String name,
                      final String phone,

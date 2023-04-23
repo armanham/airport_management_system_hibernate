@@ -6,11 +6,6 @@ public class Address {
     private String country;
     private String city;
 
-    public Address(final int id, final String country, final String city) {
-        setId(id);
-        setCountry(country);
-        setCity(city);
-    }
 
     public Address(final String country, final String city) {
         setCountry(country);

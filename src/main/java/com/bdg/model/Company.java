@@ -8,11 +8,6 @@ public class Company {
     private String name;
     private Date foundDate;
 
-    public Company(final int id, final String name, final Date foundDate) {
-        setId(id);
-        setName(name);
-        setFoundDate(foundDate);
-    }
 
     public Company(final String name, final Date foundDate) {
         setName(name);
