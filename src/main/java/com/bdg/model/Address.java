@@ -19,7 +19,7 @@ public class Address {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         if (id <= 0) {
             throw new IllegalArgumentException("'id' must be positive number: ");
         }
