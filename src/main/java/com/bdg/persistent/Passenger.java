@@ -1,6 +1,7 @@
 package com.bdg.persistent;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "passenger")
@@ -19,6 +20,14 @@ public class Passenger {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     private Address address;
+
+    @ManyToMany
+    @JoinTable(
+            name = "pass_in_trip",
+            joinColumns = {@JoinColumn(name = "pass_id")},
+            inverseJoinColumns = {@JoinColumn(name = "trip_id")}
+    )
+    private Set<Trip> trips;
 
     public Passenger() {
     }
