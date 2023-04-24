@@ -25,7 +25,7 @@ public class AddressService implements AddressRepository {
 
             com.bdg.persistent.Address addressPer = session.get(com.bdg.persistent.Address.class, id);
             if (addressPer == null) {
-                transaction.commit();
+                transaction.rollback();
                 return null;
             }
 
@@ -47,6 +47,7 @@ public class AddressService implements AddressRepository {
     @Override
     public Set<Address> getAll() {
         Transaction transaction = null;
+
         try {
             transaction = session.beginTransaction();
 
@@ -54,22 +55,12 @@ public class AddressService implements AddressRepository {
 
             List<com.bdg.persistent.Address> addressesPerList = query.getResultList();
             if (addressesPerList.isEmpty()) {
-                transaction.commit();
+                transaction.rollback();
                 return null;
             }
 
-            Set<Address> addressesModSet = new LinkedHashSet<>(addressesPerList.size());
-            for (com.bdg.persistent.Address tempAddressPer : addressesPerList) {
-                Address tempAddressMod = new Address();
-                tempAddressMod.setId(tempAddressPer.getId());
-                tempAddressMod.setCity(tempAddressPer.getCity());
-                tempAddressMod.setCountry(tempAddressPer.getCountry());
-
-                addressesModSet.add(tempAddressMod);
-            }
-
             transaction.commit();
-            return addressesModSet;
+            return getAddressesModSetFrom(addressesPerList);
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
@@ -94,30 +85,18 @@ public class AddressService implements AddressRepository {
         try {
             transaction = session.beginTransaction();
 
-            TypedQuery<List<com.bdg.persistent.Address>> query = session.createQuery("FROM Address order by " + sort);
+            TypedQuery<com.bdg.persistent.Address> query = session.createQuery("FROM Address order by " + sort);
             query.setFirstResult(offset);
             query.setMaxResults(perPage);
 
-            if (query.getResultList().isEmpty()) {
-                transaction.commit();
+            List<com.bdg.persistent.Address> addressPerList = query.getResultList();
+            if (addressPerList.isEmpty()) {
+                transaction.rollback();
                 return null;
             }
 
-            Set<Address> addressSet = new LinkedHashSet<>(query.getResultList().size());
-
-            for (int i = 0; i < query.getResultList().size(); i++) {
-                Address tempAddressMod = new Address();
-                com.bdg.persistent.Address tempAddressPer = (com.bdg.persistent.Address) query.getResultList().get(i);
-
-                tempAddressMod.setId(tempAddressPer.getId());
-                tempAddressMod.setCountry(tempAddressPer.getCountry());
-                tempAddressMod.setCity(tempAddressPer.getCity());
-
-                addressSet.add(tempAddressMod);
-            }
-
             transaction.commit();
-            return addressSet.isEmpty() ? null : addressSet;
+            return getAddressesModSetFrom(addressPerList);
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
@@ -161,7 +140,7 @@ public class AddressService implements AddressRepository {
             com.bdg.persistent.Address addressPer = session.get(com.bdg.persistent.Address.class, id);
 
             if (addressPer == null) {
-                transaction.commit();
+                transaction.rollback();
                 return false;
             }
 
@@ -190,9 +169,8 @@ public class AddressService implements AddressRepository {
             transaction = session.beginTransaction();
 
             com.bdg.persistent.Address addressPer = session.get(com.bdg.persistent.Address.class, id);
-
             if (addressPer == null) {
-                transaction.commit();
+                transaction.rollback();
                 return false;
             }
 
@@ -245,5 +223,23 @@ public class AddressService implements AddressRepository {
             transaction.rollback();
             throw new RuntimeException(e);
         }
+    }
+
+
+    private static Set<Address> getAddressesModSetFrom(List<com.bdg.persistent.Address> addressesPerList) {
+        if (addressesPerList == null) {
+            throw new NullPointerException("Passed null value as 'addressesPerList': ");
+        }
+
+        Set<Address> addressesModSet = new LinkedHashSet<>(addressesPerList.size());
+        for (com.bdg.persistent.Address tempAddressPer : addressesPerList) {
+            Address tempAddressMod = new Address();
+            tempAddressMod.setId(tempAddressPer.getId());
+            tempAddressMod.setCity(tempAddressPer.getCity());
+            tempAddressMod.setCountry(tempAddressPer.getCountry());
+
+            addressesModSet.add(tempAddressMod);
+        }
+        return addressesModSet;
     }
 }
