@@ -1,12 +1,8 @@
 package com.bdg.insert_into_db;
 
-import com.bdg.persistent.Address;
-import com.bdg.persistent.Company;
-import com.bdg.persistent.Passenger;
-import com.bdg.persistent.Trip;
+import com.bdg.persistent.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -33,11 +29,10 @@ public class Inserter {
 
     public void insertCompanyTable() {
         Transaction transaction = null;
+        List<String> lines = readLinesOfFileFrom(PATH_COMPANY_TXT);
 
         try {
             transaction = session.beginTransaction();
-
-            List<String> lines = readLinesOfFileFrom(PATH_COMPANY_TXT);
 
             for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
                 String line = lines.get(i);
@@ -69,11 +64,10 @@ public class Inserter {
 
     public void insertAddressTable() {
         Transaction transaction = null;
+        List<String> lines = readLinesOfFileFrom(PATH_ADDRESS_TXT);
 
         try {
             transaction = session.beginTransaction();
-
-            List<String> lines = readLinesOfFileFrom(PATH_ADDRESS_TXT);
 
             for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
                 String line = lines.get(i);
@@ -95,31 +89,27 @@ public class Inserter {
     }
 
 
-
     public void insertPassengerTable() {
         Transaction transaction = null;
+        List<String> lines = readLinesOfFileFrom(PATH_PASSENGER_TXT);
 
         try {
             transaction = session.beginTransaction();
-            List<String> lines = readLinesOfFileFrom(PATH_PASSENGER_TXT);
 
             for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
                 String line = lines.get(i);
                 String[] fields = line.split(",");
 
-                String hql = "select ad from Address ad where ad.id = :address_id";
-                Query<Address> query = session.createQuery(hql);
-                query.setParameter("address_id", Integer.parseInt(fields[2]));
-
-                List<Address> result = query.getResultList();
-                if (result.isEmpty()){
+                Address address = session.get(Address.class, Integer.parseInt(fields[2]));
+                if (address == null) {
+                    transaction.rollback();
                     return;
                 }
 
                 Passenger passenger = new Passenger();
                 passenger.setName(fields[0]);
                 passenger.setPhone(fields[1]);
-                passenger.setAddress(result.get(0));
+                passenger.setAddress(address);
 
                 session.save(passenger);
             }
@@ -135,21 +125,18 @@ public class Inserter {
 
     public void insertTripTable() {
         Transaction transaction = null;
+        List<String> lines = readLinesOfFileFrom(PATH_TRIP_TXT);
 
         try {
             transaction = session.beginTransaction();
-            List<String> lines = readLinesOfFileFrom(PATH_TRIP_TXT);
 
             for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
                 String line = lines.get(i);
                 String[] fields = line.split(",");
 
-                String hql = "select c from Company c where c.id = :company_id";
-                Query<Company> query = session.createQuery(hql);
-                query.setParameter("company_id", Integer.parseInt(fields[1]));
-
-                List<Company> result = query.getResultList();
-                if (result.isEmpty()){
+                Company company = session.get(Company.class, Integer.parseInt(fields[1]));
+                if (company == null) {
+                    transaction.rollback();
                     return;
                 }
 
@@ -160,7 +147,7 @@ public class Inserter {
                 trip.setTimeOut(Timestamp.valueOf(fields[6]));
                 trip.setTownFrom(fields[3]);
                 trip.setTownTo(fields[4]);
-                trip.setCompany(result.get(0));
+                trip.setCompany(company);
 
                 session.save(trip);
             }
@@ -172,39 +159,47 @@ public class Inserter {
             throw new RuntimeException(e);
         }
     }
-//
-//
-//    public void insertPassInTripTable() {
-//
-//        PreparedStatement pst = null;
-//
-//        try {
-//            List<String> lines = readLinesOfFileFrom(PATH_PASSINTRIP_TXT);
-//
-//            for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
-//                String line = lines.get(i);
-//                String[] fields = line.split(",");
-//
-//                pst = con.prepareStatement(INSERT_INTO_PASSINTRIP_SQL);
-//
-//                pst.setInt(1, Integer.parseInt(fields[0]));
-//                pst.setInt(2, Integer.parseInt(fields[1]));
-//                pst.setTimestamp(3, Timestamp.valueOf(fields[2]));
-//                pst.setString(4, fields[3]);
-//
-//                pst.executeUpdate();
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        } finally {
-//            try {
-//                assert pst != null;
-//                pst.close();
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//    }
+
+
+    public void insertPassInTripTable() {
+        Transaction transaction = null;
+        List<String> lines = readLinesOfFileFrom(PATH_PASSINTRIP_TXT);
+
+        try {
+            transaction = session.beginTransaction();
+
+            for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
+                String line = lines.get(i);
+                String[] fields = line.split(",");
+
+                Trip trip = session.get(Trip.class, Integer.parseInt(fields[0]));
+                if (trip == null) {
+                    transaction.rollback();
+                    return;
+                }
+
+                Passenger passenger = session.get(Passenger.class, Integer.parseInt(fields[1]));
+                if (passenger == null) {
+                    transaction.rollback();
+                    return;
+                }
+
+                PassInTrip passInTrip = new PassInTrip();
+                passInTrip.setTrip(trip);
+                passInTrip.setPassenger(passenger);
+                passInTrip.setTime(Timestamp.valueOf(fields[2]));
+                passInTrip.setPlace(fields[3]);
+
+                session.save(passInTrip);
+            }
+
+            transaction.commit();
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            throw new RuntimeException(e);
+        }
+    }
 
 
     private List<String> readLinesOfFileFrom(Path path) {
