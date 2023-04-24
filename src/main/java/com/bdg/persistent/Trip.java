@@ -1,9 +1,7 @@
 package com.bdg.persistent;
 
 import javax.persistence.*;
-
 import java.sql.Timestamp;
-import java.util.Set;
 
 @Entity
 @Table(name = "trip")
@@ -13,7 +11,7 @@ public class Trip {
     @Column(name = "trip_number")
     private int tripNumber;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
     private Company company;
 
@@ -31,9 +29,6 @@ public class Trip {
 
     @Column(name = "time_in", nullable = false)
     private Timestamp timeIn;
-
-    @ManyToMany(mappedBy = "trips")
-    private Set<Passenger> passengers;
 
 
     public Trip() {
