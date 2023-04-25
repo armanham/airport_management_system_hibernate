@@ -2,25 +2,25 @@ package com.bdg.model;
 
 import java.sql.Timestamp;
 
-public class Trip {
+public class TripMod {
 
     private int tripNumber;
-    private Company company;
+    private CompanyMod companyMod;
     private String airplane;
     private String townFrom;
     private String townTo;
     private Timestamp timeOut;
     private Timestamp timeIn;
 
-    public Trip(final int tripNumber,
-                final Company company,
-                final String airplane,
-                final String townFrom,
-                final String townTo,
-                final Timestamp timeOut,
-                final Timestamp timeIn) {
+    public TripMod(final int tripNumber,
+                   final CompanyMod companyMod,
+                   final String airplane,
+                   final String townFrom,
+                   final String townTo,
+                   final Timestamp timeOut,
+                   final Timestamp timeIn) {
         setTripNumber(tripNumber);
-        setCompany(company);
+        setCompany(companyMod);
         setAirplane(airplane);
         setTownFrom(townFrom);
         setTownTo(townTo);
@@ -28,7 +28,7 @@ public class Trip {
         setTimeIn(timeIn);
     }
 
-    public Trip() {
+    public TripMod() {
     }
 
     public int getTripNumber() {
@@ -42,13 +42,13 @@ public class Trip {
         this.tripNumber = tripNumber;
     }
 
-    public Company getCompany() {
-        return company;
+    public CompanyMod getCompany() {
+        return companyMod;
     }
 
-    public void setCompany(final Company company) {
-        checkNull(company);
-        this.company = company;
+    public void setCompany(final CompanyMod companyMod) {
+        checkNull(companyMod);
+        this.companyMod = companyMod;
     }
 
     public String getAirplane() {
@@ -100,7 +100,7 @@ public class Trip {
     public String toString() {
         return "Trip{" +
                 "tripNumber=" + tripNumber +
-                ", company=" + company +
+                ", company=" + companyMod +
                 ", airplane='" + airplane + '\'' +
                 ", townFrom='" + townFrom + '\'' +
                 ", townTo='" + townTo + '\'' +

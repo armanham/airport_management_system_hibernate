@@ -2,19 +2,19 @@ package com.bdg.model;
 
 import java.sql.Date;
 
-public class Company {
+public class CompanyMod {
 
     private int id;
     private String name;
     private Date foundDate;
 
 
-    public Company(final String name, final Date foundDate) {
+    public CompanyMod(final String name, final Date foundDate) {
         setName(name);
         setFoundDate(foundDate);
     }
 
-    public Company() {
+    public CompanyMod() {
     }
 
     public int getId() {

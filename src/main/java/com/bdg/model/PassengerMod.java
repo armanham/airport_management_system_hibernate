@@ -1,22 +1,22 @@
 package com.bdg.model;
 
-public class Passenger {
+public class PassengerMod {
 
     private int id;
     private String name;
     private String phone;
-    private Address address;
+    private AddressMod addressMod;
 
 
-    public Passenger(final String name,
-                     final String phone,
-                     final Address address) {
+    public PassengerMod(final String name,
+                        final String phone,
+                        final AddressMod addressMod) {
         setName(name);
         setPhone(phone);
-        setAddress(address);
+        setAddress(addressMod);
     }
 
-    public Passenger() {
+    public PassengerMod() {
     }
 
     public int getId() {
@@ -48,15 +48,15 @@ public class Passenger {
         this.phone = phone;
     }
 
-    public Address getAddress() {
-        return address;
+    public AddressMod getAddress() {
+        return addressMod;
     }
 
-    public void setAddress(final Address address) {
-        if (address == null) {
+    public void setAddress(final AddressMod addressMod) {
+        if (addressMod == null) {
             throw new NullPointerException("Passed null value as 'address': ");
         }
-        this.address = address;
+        this.addressMod = addressMod;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Passenger {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
-                ", address=" + address +
+                ", address=" + addressMod +
                 "}\n";
     }
 

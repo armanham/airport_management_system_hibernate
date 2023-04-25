@@ -1,18 +1,18 @@
 package com.bdg.model;
 
-public class Address {
+public class AddressMod {
 
     private int id;
     private String country;
     private String city;
 
 
-    public Address(final String country, final String city) {
+    public AddressMod(final String country, final String city) {
         setCountry(country);
         setCity(city);
     }
 
-    public Address() {
+    public AddressMod() {
     }
 
     public int getId() {
