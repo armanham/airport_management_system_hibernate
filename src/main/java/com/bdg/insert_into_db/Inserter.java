@@ -40,9 +40,9 @@ public class Inserter {
 
                 String[] dateParts = fields[1].split("/");
 
-                Company company = new Company();
-                company.setName(fields[1]);
-                company.setFoundDate(
+                CompanyPer companyPer = new CompanyPer();
+                companyPer.setName(fields[1]);
+                companyPer.setFoundDate(
                         Date.valueOf(
                                 LocalDate.of(
                                         Integer.parseInt(dateParts[2]),
@@ -50,7 +50,7 @@ public class Inserter {
                                         Integer.parseInt(dateParts[1])
                                 )));
 
-                session.save(company);
+                session.save(companyPer);
             }
 
             transaction.commit();
@@ -73,11 +73,11 @@ public class Inserter {
                 String line = lines.get(i);
                 String[] fields = line.split(",");
 
-                Address address = new Address();
-                address.setCountry(fields[0]);
-                address.setCity(fields[1]);
+                AddressPer addressPer = new AddressPer();
+                addressPer.setCountry(fields[0]);
+                addressPer.setCity(fields[1]);
 
-                session.save(address);
+                session.save(addressPer);
             }
 
             transaction.commit();
@@ -100,18 +100,18 @@ public class Inserter {
                 String line = lines.get(i);
                 String[] fields = line.split(",");
 
-                Address address = session.get(Address.class, Integer.parseInt(fields[2]));
-                if (address == null) {
+                AddressPer addressPer = session.get(AddressPer.class, Integer.parseInt(fields[2]));
+                if (addressPer == null) {
                     transaction.rollback();
                     return;
                 }
 
-                Passenger passenger = new Passenger();
-                passenger.setName(fields[0]);
-                passenger.setPhone(fields[1]);
-                passenger.setAddress(address);
+                PassengerPer passengerPer = new PassengerPer();
+                passengerPer.setName(fields[0]);
+                passengerPer.setPhone(fields[1]);
+                passengerPer.setAddress(addressPer);
 
-                session.save(passenger);
+                session.save(passengerPer);
             }
 
             transaction.commit();
@@ -134,22 +134,22 @@ public class Inserter {
                 String line = lines.get(i);
                 String[] fields = line.split(",");
 
-                Company company = session.get(Company.class, Integer.parseInt(fields[1]));
-                if (company == null) {
+                CompanyPer companyPer = session.get(CompanyPer.class, Integer.parseInt(fields[1]));
+                if (companyPer == null) {
                     transaction.rollback();
                     return;
                 }
 
-                Trip trip = new Trip();
-                trip.setTripNumber(Integer.parseInt(fields[0]));
-                trip.setAirplane(fields[2]);
-                trip.setTimeIn(Timestamp.valueOf(fields[5]));
-                trip.setTimeOut(Timestamp.valueOf(fields[6]));
-                trip.setTownFrom(fields[3]);
-                trip.setTownTo(fields[4]);
-                trip.setCompany(company);
+                TripPer tripPer = new TripPer();
+                tripPer.setTripNumber(Integer.parseInt(fields[0]));
+                tripPer.setAirplane(fields[2]);
+                tripPer.setTimeIn(Timestamp.valueOf(fields[5]));
+                tripPer.setTimeOut(Timestamp.valueOf(fields[6]));
+                tripPer.setTownFrom(fields[3]);
+                tripPer.setTownTo(fields[4]);
+                tripPer.setCompany(companyPer);
 
-                session.save(trip);
+                session.save(tripPer);
             }
 
             transaction.commit();
@@ -172,25 +172,25 @@ public class Inserter {
                 String line = lines.get(i);
                 String[] fields = line.split(",");
 
-                Trip trip = session.get(Trip.class, Integer.parseInt(fields[0]));
-                if (trip == null) {
+                TripPer tripPer = session.get(TripPer.class, Integer.parseInt(fields[0]));
+                if (tripPer == null) {
                     transaction.rollback();
                     return;
                 }
 
-                Passenger passenger = session.get(Passenger.class, Integer.parseInt(fields[1]));
-                if (passenger == null) {
+                PassengerPer passengerPer = session.get(PassengerPer.class, Integer.parseInt(fields[1]));
+                if (passengerPer == null) {
                     transaction.rollback();
                     return;
                 }
 
-                PassInTrip passInTrip = new PassInTrip();
-                passInTrip.setTrip(trip);
-                passInTrip.setPassenger(passenger);
-                passInTrip.setTime(Timestamp.valueOf(fields[2]));
-                passInTrip.setPlace(fields[3]);
+                PassInTripPer passInTripPer = new PassInTripPer();
+                passInTripPer.setTrip(tripPer);
+                passInTripPer.setPassenger(passengerPer);
+                passInTripPer.setTime(Timestamp.valueOf(fields[2]));
+                passInTripPer.setPlace(fields[3]);
 
-                session.save(passInTrip);
+                session.save(passInTripPer);
             }
 
             transaction.commit();
