@@ -1,5 +1,7 @@
 package com.bdg.service;
 
+import com.bdg.converter.model_to_persistance.ModToPerCompany;
+import com.bdg.converter.persistent_to_model.PerToModCompany;
 import com.bdg.model.CompanyMod;
 import com.bdg.persistent.CompanyPer;
 import com.bdg.persistent.TripPer;
@@ -16,9 +18,12 @@ import java.util.Set;
 public class CompanyService implements CompanyRepository {
 
     private Session session;
+    private static final ModToPerCompany MOD_TO_PER = new ModToPerCompany();
+    private static final PerToModCompany PER_TO_MOD = new PerToModCompany();
 
 
     @Override
+
     public CompanyMod getBy(int id) {
         checkId(id);
 
@@ -32,13 +37,8 @@ public class CompanyService implements CompanyRepository {
                 return null;
             }
 
-            CompanyMod companyMod = new CompanyMod();
-            companyMod.setId(companyPer.getId());
-            companyMod.setName(companyPer.getName());
-            companyMod.setFoundDate(companyPer.getFoundDate());
-
             transaction.commit();
-            return companyMod;
+            return PER_TO_MOD.getModelFromPersistent(companyPer);
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
@@ -120,9 +120,7 @@ public class CompanyService implements CompanyRepository {
         try {
             transaction = session.beginTransaction();
 
-            CompanyPer companyPer = new CompanyPer();
-            companyPer.setName(item.getName());
-            companyPer.setFoundDate(item.getFoundDate());
+            CompanyPer companyPer = MOD_TO_PER.getPersistentFromModel(item);
             session.save(companyPer);
             item.setId(companyPer.getId());
 
@@ -222,14 +220,8 @@ public class CompanyService implements CompanyRepository {
 
         Set<CompanyMod> companiesModSet = new LinkedHashSet<>(companiesPerList.size());
 
-        for (CompanyPer tempCompanyPerPer : companiesPerList) {
-            CompanyMod tempCompanyModMod = new CompanyMod();
-
-            tempCompanyModMod.setId(tempCompanyPerPer.getId());
-            tempCompanyModMod.setName(tempCompanyPerPer.getName());
-            tempCompanyModMod.setFoundDate(tempCompanyPerPer.getFoundDate());
-
-            companiesModSet.add(tempCompanyModMod);
+        for (CompanyPer tempCompanyPer : companiesPerList) {
+            companiesModSet.add(PER_TO_MOD.getModelFromPersistent(tempCompanyPer));
         }
         return companiesModSet;
     }
