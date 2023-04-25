@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "trip")
-public class Trip {
+public class TripPer {
 
     @Id
     @Column(name = "trip_number")
@@ -13,7 +13,7 @@ public class Trip {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
-    private Company company;
+    private CompanyPer companyPer;
 
     @Column(nullable = false, length = 24)
     private String airplane;
@@ -31,7 +31,7 @@ public class Trip {
     private Timestamp timeIn;
 
 
-    public Trip() {
+    public TripPer() {
     }
 
     public int getTripNumber() {
@@ -42,12 +42,12 @@ public class Trip {
         this.tripNumber = tripNumber;
     }
 
-    public Company getCompany() {
-        return company;
+    public CompanyPer getCompany() {
+        return companyPer;
     }
 
-    public void setCompany(final Company company) {
-        this.company = company;
+    public void setCompany(final CompanyPer companyPer) {
+        this.companyPer = companyPer;
     }
 
     public String getAirplane() {

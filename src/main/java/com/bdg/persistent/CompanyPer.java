@@ -5,7 +5,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "company")
-public class Company {
+public class CompanyPer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class Company {
     @Column(name = "found_date", nullable = false, updatable = false)
     private Date foundDate;
 
-    public Company() {
+    public CompanyPer() {
     }
 
     public int getId() {

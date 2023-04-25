@@ -8,7 +8,7 @@ import java.sql.Timestamp;
         name = "pass_in_trip",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"trip_number", "passenger_id", "place"})}
 )
-public class PassInTrip {
+public class PassInTripPer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,11 +16,11 @@ public class PassInTrip {
 
     @ManyToOne
     @JoinColumn(name = "trip_number", referencedColumnName = "trip_number")
-    private Trip trip;
+    private TripPer tripPer;
 
     @ManyToOne
     @JoinColumn(name = "passenger_id", referencedColumnName = "id")
-    private Passenger passenger;
+    private PassengerPer passenger;
 
     @Column(updatable = false, nullable = false)
     private Timestamp time;
@@ -29,7 +29,7 @@ public class PassInTrip {
     private String place;
 
 
-    public PassInTrip() {
+    public PassInTripPer() {
     }
 
 
@@ -41,19 +41,19 @@ public class PassInTrip {
         this.id = id;
     }
 
-    public Trip getTrip() {
-        return trip;
+    public TripPer getTrip() {
+        return tripPer;
     }
 
-    public void setTrip(Trip trip) {
-        this.trip = trip;
+    public void setTrip(TripPer tripPer) {
+        this.tripPer = tripPer;
     }
 
-    public Passenger getPassenger() {
+    public PassengerPer getPassenger() {
         return passenger;
     }
 
-    public void setPassenger(Passenger passenger) {
+    public void setPassenger(PassengerPer passenger) {
         this.passenger = passenger;
     }
 

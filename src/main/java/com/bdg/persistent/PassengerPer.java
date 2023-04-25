@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "passenger")
-public class Passenger {
+public class PassengerPer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +17,11 @@ public class Passenger {
     private String phone;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
-    private Address address;
+    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = true)
+    private AddressPer addressPer;
 
 
-    public Passenger() {
+    public PassengerPer() {
     }
 
     public int getId() {
@@ -48,11 +48,11 @@ public class Passenger {
         this.phone = phone;
     }
 
-    public Address getAddress() {
-        return address;
+    public AddressPer getAddress() {
+        return addressPer;
     }
 
-    public void setAddress(final Address address) {
-        this.address = address;
+    public void setAddress(final AddressPer addressPer) {
+        this.addressPer = addressPer;
     }
 }

@@ -3,8 +3,12 @@ package com.bdg.persistent;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "address")
-public class Address {
+@Table(
+        name = "address",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"country", "city"})}
+)
+
+public class AddressPer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +20,7 @@ public class Address {
     @Column(nullable = false, length = 50)
     private String city;
 
-    public Address() {
+    public AddressPer() {
     }
 
     public int getId() {
