@@ -239,9 +239,7 @@ public class AddressService implements AddressRepository {
 
         Set<AddressMod> addressesModSet = new LinkedHashSet<>(addressesPerList.size());
         for (AddressPer tempAddressPer : addressesPerList) {
-            AddressMod tempAddressModMod = PER_TO_MOD.getModelFromPersistent(tempAddressPer);
-
-            addressesModSet.add(tempAddressModMod);
+            addressesModSet.add(PER_TO_MOD.getModelFromPersistent(tempAddressPer));
         }
         return addressesModSet;
     }
