@@ -1,6 +1,8 @@
 package com.bdg.service;
 
-import com.bdg.model.Company;
+import com.bdg.model.CompanyMod;
+import com.bdg.persistent.CompanyPer;
+import com.bdg.persistent.TripPer;
 import com.bdg.repository.CompanyRepository;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -17,20 +19,20 @@ public class CompanyService implements CompanyRepository {
 
 
     @Override
-    public Company getBy(int id) {
+    public CompanyMod getBy(int id) {
         checkId(id);
 
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
 
-            com.bdg.persistent.Company companyPer = session.get(com.bdg.persistent.Company.class, id);
+            CompanyPer companyPer = session.get(CompanyPer.class, id);
             if (companyPer == null) {
                 transaction.commit();
                 return null;
             }
 
-            Company companyMod = new Company();
+            CompanyMod companyMod = new CompanyMod();
             companyMod.setId(companyPer.getId());
             companyMod.setName(companyPer.getName());
             companyMod.setFoundDate(companyPer.getFoundDate());
@@ -46,20 +48,20 @@ public class CompanyService implements CompanyRepository {
 
 
     @Override
-    public Set<Company> getAll() {
+    public Set<CompanyMod> getAll() {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
 
-            TypedQuery<com.bdg.persistent.Company> query = session.createQuery("FROM Company", com.bdg.persistent.Company.class);
+            TypedQuery<CompanyPer> query = session.createQuery("FROM CompanyPer", CompanyPer.class);
 
-            List<com.bdg.persistent.Company> companiesPerlist = query.getResultList();
+            List<CompanyPer> companiesPerlist = query.getResultList();
             if (companiesPerlist.isEmpty()) {
                 transaction.commit();
                 return null;
             }
 
-            Set<Company> companiesModSet = getCompaniesModSetFrom(companiesPerlist);
+            Set<CompanyMod> companiesModSet = getCompaniesModSetFrom(companiesPerlist);
 
             transaction.commit();
             return companiesModSet;
@@ -72,7 +74,7 @@ public class CompanyService implements CompanyRepository {
 
 
     @Override
-    public Set<Company> get(int offset, int perPage, String sort) {
+    public Set<CompanyMod> get(int offset, int perPage, String sort) {
         if (offset <= 0 || perPage <= 0) {
             throw new IllegalArgumentException("Passed non-positive value as 'offset' or 'perPage': ");
         }
@@ -87,18 +89,18 @@ public class CompanyService implements CompanyRepository {
         try {
             transaction = session.beginTransaction();
 
-            TypedQuery<com.bdg.persistent.Company> query = session.createQuery("FROM Company order by " + sort);
+            TypedQuery<CompanyPer> query = session.createQuery("FROM CompanyPer order by " + sort);
             query.setFirstResult(offset);
             query.setMaxResults(perPage);
 
-            List<com.bdg.persistent.Company> companiesPerList = query.getResultList();
+            List<CompanyPer> companiesPerList = query.getResultList();
 
             if (companiesPerList.isEmpty()) {
                 transaction.commit();
                 return null;
             }
 
-            Set<Company> companiesModSet = getCompaniesModSetFrom(companiesPerList);
+            Set<CompanyMod> companiesModSet = getCompaniesModSetFrom(companiesPerList);
 
             transaction.commit();
             return companiesModSet;
@@ -111,14 +113,14 @@ public class CompanyService implements CompanyRepository {
 
 
     @Override
-    public Company save(Company item) {
+    public CompanyMod save(CompanyMod item) {
         checkNull(item);
 
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
 
-            com.bdg.persistent.Company companyPer = new com.bdg.persistent.Company();
+            CompanyPer companyPer = new CompanyPer();
             companyPer.setName(item.getName());
             companyPer.setFoundDate(item.getFoundDate());
             session.save(companyPer);
@@ -135,7 +137,7 @@ public class CompanyService implements CompanyRepository {
 
 
     @Override
-    public boolean updateBy(int id, Company item) {
+    public boolean updateBy(int id, CompanyMod item) {
         checkId(id);
         checkNull(item);
 
@@ -143,7 +145,7 @@ public class CompanyService implements CompanyRepository {
         try {
             transaction = session.beginTransaction();
 
-            com.bdg.persistent.Company companyPer = session.get(com.bdg.persistent.Company.class, id);
+            CompanyPer companyPer = session.get(CompanyPer.class, id);
             if (companyPer == null) {
                 transaction.commit();
                 return false;
@@ -175,7 +177,7 @@ public class CompanyService implements CompanyRepository {
         try {
             transaction = session.beginTransaction();
 
-            com.bdg.persistent.Company companyPer = session.get(com.bdg.persistent.Company.class, id);
+            CompanyPer companyPer = session.get(CompanyPer.class, id);
 
             if (companyPer == null) {
                 transaction.commit();
@@ -213,21 +215,21 @@ public class CompanyService implements CompanyRepository {
     }
 
 
-    private Set<Company> getCompaniesModSetFrom(List<com.bdg.persistent.Company> companiesPerList) {
+    private Set<CompanyMod> getCompaniesModSetFrom(List<CompanyPer> companiesPerList) {
         if (companiesPerList == null) {
             throw new NullPointerException("Passed null value as 'companiesPerList': ");
         }
 
-        Set<Company> companiesModSet = new LinkedHashSet<>(companiesPerList.size());
+        Set<CompanyMod> companiesModSet = new LinkedHashSet<>(companiesPerList.size());
 
-        for (com.bdg.persistent.Company tempCompanyPer : companiesPerList) {
-            Company tempCompanyMod = new Company();
+        for (CompanyPer tempCompanyPerPer : companiesPerList) {
+            CompanyMod tempCompanyModMod = new CompanyMod();
 
-            tempCompanyMod.setId(tempCompanyPer.getId());
-            tempCompanyMod.setName(tempCompanyPer.getName());
-            tempCompanyMod.setFoundDate(tempCompanyPer.getFoundDate());
+            tempCompanyModMod.setId(tempCompanyPerPer.getId());
+            tempCompanyModMod.setName(tempCompanyPerPer.getName());
+            tempCompanyModMod.setFoundDate(tempCompanyPerPer.getFoundDate());
 
-            companiesModSet.add(tempCompanyMod);
+            companiesModSet.add(tempCompanyModMod);
         }
         return companiesModSet;
     }
@@ -240,8 +242,8 @@ public class CompanyService implements CompanyRepository {
         try {
             transaction = session.beginTransaction();
 
-            String hql = "select t from Trip as t where t.company = :companyId";
-            TypedQuery<com.bdg.persistent.Trip> query = session.createQuery(hql);
+            String hql = "select t from TripPer as t where t.company = :companyId";
+            TypedQuery<TripPer> query = session.createQuery(hql);
             query.setParameter("companyId", companyId);
 
             transaction.commit();
