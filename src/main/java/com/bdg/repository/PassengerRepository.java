@@ -1,13 +1,13 @@
 package com.bdg.repository;
 
-import com.bdg.model.Passenger;
+import com.bdg.model.PassengerMod;
 import com.bdg.repository.common.CommonRepository;
 
 import java.util.List;
 
-public interface PassengerRepository extends CommonRepository<Passenger> {
+public interface PassengerRepository extends CommonRepository<PassengerMod> {
 
-    List<Passenger> getAllOf(int tripId);
+    List<PassengerMod> getAllOf(int tripId);
 
     boolean registerTrip(int id, int tripId);
 

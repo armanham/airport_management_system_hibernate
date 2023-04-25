@@ -1,8 +1,8 @@
 package com.bdg.repository;
 
-import com.bdg.model.Company;
+import com.bdg.model.CompanyMod;
 import com.bdg.repository.common.CommonRepository;
 
-public interface CompanyRepository extends CommonRepository<Company> {
+public interface CompanyRepository extends CommonRepository<CompanyMod> {
 
 }
