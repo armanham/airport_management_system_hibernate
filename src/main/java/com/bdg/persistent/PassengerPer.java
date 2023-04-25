@@ -18,7 +18,7 @@ public class PassengerPer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = true)
-    private AddressPer addressPer;
+    private AddressPer address;
 
 
     public PassengerPer() {
@@ -49,10 +49,10 @@ public class PassengerPer {
     }
 
     public AddressPer getAddress() {
-        return addressPer;
+        return address;
     }
 
     public void setAddress(final AddressPer addressPer) {
-        this.addressPer = addressPer;
+        this.address = addressPer;
     }
 }

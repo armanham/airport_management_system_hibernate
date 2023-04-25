@@ -13,7 +13,7 @@ public class TripPer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
-    private CompanyPer companyPer;
+    private CompanyPer company;
 
     @Column(nullable = false, length = 24)
     private String airplane;
@@ -43,11 +43,11 @@ public class TripPer {
     }
 
     public CompanyPer getCompany() {
-        return companyPer;
+        return company;
     }
 
     public void setCompany(final CompanyPer companyPer) {
-        this.companyPer = companyPer;
+        this.company = companyPer;
     }
 
     public String getAirplane() {
