@@ -14,10 +14,10 @@
 
         <property name="show_sql">true</property>
 
-        <mapping class="com.bdg.persistent.Address"/>
-        <mapping class="com.bdg.persistent.Company"/>
-        <mapping class="com.bdg.persistent.Passenger"/>
-        <mapping class="com.bdg.persistent.Trip"/>
-        <mapping class="com.bdg.persistent.PassInTrip"/>
+        <mapping class="com.bdg.persistent.AddressPer"/>
+        <mapping class="com.bdg.persistent.CompanyPer"/>
+        <mapping class="com.bdg.persistent.PassengerPer"/>
+        <mapping class="com.bdg.persistent.TripPer"/>
+        <mapping class="com.bdg.persistent.PassInTripPer"/>
     </session-factory>
 </hibernate-configuration>
