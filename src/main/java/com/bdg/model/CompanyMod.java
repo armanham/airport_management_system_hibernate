@@ -1,6 +1,7 @@
 package com.bdg.model;
 
 import java.sql.Date;
+import java.util.Objects;
 
 public class CompanyMod {
 
@@ -48,6 +49,19 @@ public class CompanyMod {
             throw new NullPointerException("Passed null value as 'foundDate': ");
         }
         this.foundDate = foundDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CompanyMod that = (CompanyMod) o;
+        return id == that.id && Objects.equals(name, that.name) && Objects.equals(foundDate, that.foundDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, foundDate);
     }
 
     @Override

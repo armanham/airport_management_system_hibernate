@@ -1,5 +1,7 @@
 package com.bdg.model;
 
+import java.util.Objects;
+
 public class AddressMod {
 
     private int id;
@@ -42,6 +44,19 @@ public class AddressMod {
     public void setCity(final String city) {
         validateString(city);
         this.city = city;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AddressMod that = (AddressMod) o;
+        return Objects.equals(country, that.country) && Objects.equals(city, that.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(country, city);
     }
 
     @Override
