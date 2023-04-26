@@ -2,6 +2,7 @@ package com.bdg.service;
 
 import com.bdg.converter.model_to_persistance.ModToPerAddress;
 import com.bdg.converter.persistent_to_model.PerToModAddress;
+import com.bdg.hibernate.HibernateUtil;
 import com.bdg.model.AddressMod;
 import com.bdg.persistent.AddressPer;
 import com.bdg.persistent.PassengerPer;
@@ -11,10 +12,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.TypedQuery;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+//TODO Sessianeri pahy petq a arvi sax methodnerum(get anel u close anel amen mi methodum)
+// check() method-neri hamar sarqel arandzin Validator class(hamarya sax service-nerum nuyn check-ery grum enq)
 public class AddressService implements AddressRepository {
 
     private Session session;
@@ -26,6 +28,7 @@ public class AddressService implements AddressRepository {
     public AddressMod getBy(int id) {
         checkId(id);
 
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -37,11 +40,13 @@ public class AddressService implements AddressRepository {
             }
 
             transaction.commit();
-            return PER_TO_MOD.getModelFromPersistent(addressPer);
+            return PER_TO_MOD.getModelFrom(addressPer);
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
     }
 
@@ -55,14 +60,14 @@ public class AddressService implements AddressRepository {
 
             TypedQuery<AddressPer> query = session.createQuery("FROM AddressPer", AddressPer.class);
 
-            List<AddressPer> addressesPerList = query.getResultList();
-            if (addressesPerList.isEmpty()) {
+            List<AddressPer> addressPerList = query.getResultList();
+            if (addressPerList.isEmpty()) {
                 transaction.rollback();
                 return null;
             }
 
             transaction.commit();
-            return getAddressesModSetFrom(addressesPerList);
+            return (Set<AddressMod>) PER_TO_MOD.getModelListFrom(addressPerList);
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
@@ -98,7 +103,7 @@ public class AddressService implements AddressRepository {
             }
 
             transaction.commit();
-            return getAddressesModSetFrom(addressPerList);
+            return (Set<AddressMod>) PER_TO_MOD.getModelListFrom(addressPerList);
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
@@ -115,7 +120,7 @@ public class AddressService implements AddressRepository {
             return null;
         }
 
-        AddressPer addressPer = MOD_TO_PER.getPersistentFromModel(item);
+        AddressPer addressPer = MOD_TO_PER.getPersistentFrom(item);
 
         Transaction transaction = null;
         try {
@@ -191,12 +196,6 @@ public class AddressService implements AddressRepository {
     }
 
 
-    public void setSession(Session session) {
-        checkNull(session);
-        this.session = session;
-    }
-
-
     private void checkId(int id) {
         if (id <= 0) {
             throw new IllegalArgumentException("'id' must be a positive number: ");
@@ -232,30 +231,26 @@ public class AddressService implements AddressRepository {
     }
 
 
-    private Set<AddressMod> getAddressesModSetFrom(List<AddressPer> addressesPerList) {
-        if (addressesPerList == null) {
-            throw new NullPointerException("Passed null value as 'addressesPerList': ");
-        }
-
-        Set<AddressMod> addressesModSet = new LinkedHashSet<>(addressesPerList.size());
-        for (AddressPer tempAddressPer : addressesPerList) {
-            addressesModSet.add(PER_TO_MOD.getModelFromPersistent(tempAddressPer));
-        }
-        return addressesModSet;
-    }
-
-
-    private boolean exists(AddressMod addressMod) {
-        if (addressMod == null) {
-            throw new NullPointerException("Passed null value as 'addressMod': ");
-        }
+    public boolean exists(AddressMod addressMod) {
+        checkNull(addressMod);
 
         for (AddressMod addressModTemp : getAll()) {
             if (addressModTemp.equals(addressMod)) {
                 return true;
             }
         }
-
         return false;
+    }
+
+
+    public int getId(AddressMod addressMod) {
+        checkNull(addressMod);
+
+        for (AddressMod addressModTemp : getAll()) {
+            if (addressModTemp.equals(addressMod)) {
+                return addressModTemp.getId();
+            }
+        }
+        return -1;
     }
 }

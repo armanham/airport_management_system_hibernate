@@ -15,6 +15,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+//TODO Sesianery amen mi methodum bacel pakel
 public class CompanyService implements CompanyRepository {
 
     private Session session;
@@ -38,7 +39,7 @@ public class CompanyService implements CompanyRepository {
             }
 
             transaction.commit();
-            return PER_TO_MOD.getModelFromPersistent(companyPer);
+            return PER_TO_MOD.getModelFrom(companyPer);
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
@@ -61,10 +62,8 @@ public class CompanyService implements CompanyRepository {
                 return null;
             }
 
-            Set<CompanyMod> companiesModSet = getCompaniesModSetFrom(companiesPerlist);
-
             transaction.commit();
-            return companiesModSet;
+            return getCompaniesModSetFrom(companiesPerlist);
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
@@ -100,10 +99,8 @@ public class CompanyService implements CompanyRepository {
                 return null;
             }
 
-            Set<CompanyMod> companiesModSet = getCompaniesModSetFrom(companiesPerList);
-
             transaction.commit();
-            return companiesModSet;
+            return getCompaniesModSetFrom(companiesPerList);
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
@@ -120,7 +117,7 @@ public class CompanyService implements CompanyRepository {
         try {
             transaction = session.beginTransaction();
 
-            CompanyPer companyPer = MOD_TO_PER.getPersistentFromModel(item);
+            CompanyPer companyPer = MOD_TO_PER.getPersistentFrom(item);
             session.save(companyPer);
             item.setId(companyPer.getId());
 
@@ -221,7 +218,7 @@ public class CompanyService implements CompanyRepository {
         Set<CompanyMod> companiesModSet = new LinkedHashSet<>(companiesPerList.size());
 
         for (CompanyPer tempCompanyPer : companiesPerList) {
-            companiesModSet.add(PER_TO_MOD.getModelFromPersistent(tempCompanyPer));
+            companiesModSet.add(PER_TO_MOD.getModelFrom(tempCompanyPer));
         }
         return companiesModSet;
     }

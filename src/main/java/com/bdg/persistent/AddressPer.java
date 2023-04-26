@@ -2,12 +2,14 @@ package com.bdg.persistent;
 
 import javax.persistence.*;
 
+//TODO Karanq sax Entity-neri hamar sarqenq mi hat abstract class,,,,
+// id-n saxi hamar ira getter/setter-nerov nuynna
+
 @Entity
 @Table(
         name = "address",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"country", "city"})}
 )
-
 public class AddressPer {
 
     @Id
