@@ -1,6 +1,7 @@
 package com.bdg.insert_into_db;
 
 import com.bdg.persistent.*;
+import com.bdg.validator.Validator;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -14,7 +15,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Inserter {
-
     private static final String ROOT_PATH =
             "C:\\Users\\user\\Java Projects\\airport_management_system_hibernate\\src\\main\\resources\\txt\\";
     private static final Path PATH_COMPANY_TXT = Path.of(ROOT_PATH + "companies.txt");
@@ -203,22 +203,18 @@ public class Inserter {
 
 
     private List<String> readLinesOfFileFrom(Path path) {
-        if (path == null) {
-            throw new NullPointerException("Passed null value as 'path': ");
-        }
+        Validator.checkNull(path);
+
         try {
             return Files.readAllLines(path, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
 
     public void setSession(Session session) {
-        if (session == null) {
-            throw new NullPointerException("Passed null value as 'session': ");
-        }
+        Validator.checkNull(session);
         this.session = session;
     }
 }
