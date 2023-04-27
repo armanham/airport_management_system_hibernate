@@ -20,6 +20,7 @@ public class ModToPerAddress extends ModToPer<AddressMod, AddressPer> {
         return persistent;
     }
 
+
     @Override
     public Collection<AddressPer> getPersistentListFrom(Collection<AddressMod> modelList) {
         Validator.checkNull(modelList);

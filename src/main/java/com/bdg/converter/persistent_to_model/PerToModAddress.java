@@ -21,6 +21,7 @@ public class PerToModAddress extends PerToMod<AddressPer, AddressMod> {
         return model;
     }
 
+
     @Override
     public Collection<AddressMod> getModelListFrom(Collection<AddressPer> persistentList) {
         Validator.checkNull(persistentList);
