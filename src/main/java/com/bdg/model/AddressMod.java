@@ -19,6 +19,7 @@ public class AddressMod {
     public AddressMod() {
     }
 
+
     public int getId() {
         return id;
     }
@@ -28,23 +29,26 @@ public class AddressMod {
         this.id = id;
     }
 
+
     public String getCountry() {
         return country;
     }
 
     public void setCountry(final String country) {
-        validateString(country);
+        Validator.validateString(country);
         this.country = country;
     }
+
 
     public String getCity() {
         return city;
     }
 
     public void setCity(final String city) {
-        validateString(city);
+        Validator.validateString(city);
         this.city = city;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -59,6 +63,7 @@ public class AddressMod {
         return Objects.hash(country, city);
     }
 
+
     @Override
     public String toString() {
         return "Address{" +
@@ -66,11 +71,5 @@ public class AddressMod {
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 "}\n";
-    }
-
-    private void validateString(final String str) {
-        if (str == null || str.isEmpty()) {
-            throw new IllegalArgumentException("Passed null or empty value: ");
-        }
     }
 }

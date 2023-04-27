@@ -10,9 +10,10 @@ public class PassengerMod {
     private AddressMod addressMod;
 
 
-    public PassengerMod(final String name,
-                        final String phone,
-                        final AddressMod addressMod) {
+    public PassengerMod(
+            final String name,
+            final String phone,
+            final AddressMod addressMod) {
         setName(name);
         setPhone(phone);
         setAddress(addressMod);
@@ -20,6 +21,7 @@ public class PassengerMod {
 
     public PassengerMod() {
     }
+
 
     public int getId() {
         return id;
@@ -35,7 +37,7 @@ public class PassengerMod {
     }
 
     public void setName(final String name) {
-        validateString(name);
+        Validator.validateString(name);
         this.name = name;
     }
 
@@ -44,7 +46,7 @@ public class PassengerMod {
     }
 
     public void setPhone(final String phone) {
-        validateString(phone);
+        Validator.validateString(phone);
         this.phone = phone;
     }
 
@@ -53,11 +55,10 @@ public class PassengerMod {
     }
 
     public void setAddress(final AddressMod addressMod) {
-        if (addressMod == null) {
-            throw new NullPointerException("Passed null value as 'address': ");
-        }
+        Validator.checkNull(addressMod);
         this.addressMod = addressMod;
     }
+
 
     @Override
     public String toString() {
@@ -67,11 +68,5 @@ public class PassengerMod {
                 ", phone='" + phone + '\'' +
                 ", address=" + addressMod +
                 "}\n";
-    }
-
-    private void validateString(final String str) {
-        if (str == null || str.isEmpty()) {
-            throw new IllegalArgumentException("Passed null or empty value: ");
-        }
     }
 }

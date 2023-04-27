@@ -7,22 +7,24 @@ import java.sql.Timestamp;
 public class TripMod {
 
     private int tripNumber;
-    private CompanyMod companyMod;
+    private CompanyMod company;
     private String airplane;
     private String townFrom;
     private String townTo;
     private Timestamp timeOut;
     private Timestamp timeIn;
 
-    public TripMod(final int tripNumber,
-                   final CompanyMod companyMod,
-                   final String airplane,
-                   final String townFrom,
-                   final String townTo,
-                   final Timestamp timeOut,
-                   final Timestamp timeIn) {
+
+    public TripMod(
+            final int tripNumber,
+            final CompanyMod company,
+            final String airplane,
+            final String townFrom,
+            final String townTo,
+            final Timestamp timeOut,
+            final Timestamp timeIn) {
         setTripNumber(tripNumber);
-        setCompany(companyMod);
+        setCompany(company);
         setAirplane(airplane);
         setTownFrom(townFrom);
         setTownTo(townTo);
@@ -32,6 +34,7 @@ public class TripMod {
 
     public TripMod() {
     }
+
 
     public int getTripNumber() {
         return tripNumber;
@@ -43,12 +46,12 @@ public class TripMod {
     }
 
     public CompanyMod getCompany() {
-        return companyMod;
+        return company;
     }
 
     public void setCompany(final CompanyMod companyMod) {
         Validator.checkNull(companyMod);
-        this.companyMod = companyMod;
+        this.company = companyMod;
     }
 
     public String getAirplane() {
@@ -56,7 +59,7 @@ public class TripMod {
     }
 
     public void setAirplane(final String airplane) {
-        validateString(airplane);
+        Validator.validateString(airplane);
         this.airplane = airplane;
     }
 
@@ -65,7 +68,7 @@ public class TripMod {
     }
 
     public void setTownFrom(final String townFrom) {
-        validateString(townFrom);
+        Validator.validateString(townFrom);
         this.townFrom = townFrom;
     }
 
@@ -74,7 +77,7 @@ public class TripMod {
     }
 
     public void setTownTo(final String townTo) {
-        validateString(townTo);
+        Validator.validateString(townTo);
         this.townTo = townTo;
     }
 
@@ -96,22 +99,17 @@ public class TripMod {
         this.timeIn = timeIn;
     }
 
+
     @Override
     public String toString() {
         return "Trip{" +
                 "tripNumber=" + tripNumber +
-                ", company=" + companyMod +
+                ", company=" + company +
                 ", airplane='" + airplane + '\'' +
                 ", townFrom='" + townFrom + '\'' +
                 ", townTo='" + townTo + '\'' +
                 ", timeOut=" + timeOut +
                 ", timeIn=" + timeIn +
                 "}\n";
-    }
-
-    private void validateString(final String string) {
-        if (string == null || string.isEmpty()) {
-            throw new IllegalArgumentException("Passed null or empty value: ");
-        }
     }
 }

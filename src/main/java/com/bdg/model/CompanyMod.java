@@ -20,6 +20,7 @@ public class CompanyMod {
     public CompanyMod() {
     }
 
+
     public int getId() {
         return id;
     }
@@ -34,9 +35,7 @@ public class CompanyMod {
     }
 
     public void setName(final String name) {
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Passed null or empty value as 'name': ");
-        }
+        Validator.validateString(name);
         this.name = name;
     }
 
@@ -49,18 +48,20 @@ public class CompanyMod {
         this.foundDate = foundDate;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CompanyMod that = (CompanyMod) o;
-        return id == that.id && Objects.equals(name, that.name) && Objects.equals(foundDate, that.foundDate);
+        return Objects.equals(name, that.name) && Objects.equals(foundDate, that.foundDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, foundDate);
+        return Objects.hash(name, foundDate);
     }
+
 
     @Override
     public String toString() {
