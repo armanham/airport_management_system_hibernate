@@ -4,14 +4,14 @@ import com.bdg.model.CompanyMod;
 import com.bdg.persistent.CompanyPer;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class ModToPerCompany extends ModToPer<CompanyMod, CompanyPer> {
 
     @Override
     public CompanyPer getPersistentFrom(CompanyMod model) {
-        if (model == null) {
-            throw new NullPointerException("Passed null value as 'model': ");
-        }
+        checkNull(model);
 
         CompanyPer persistent = new CompanyPer();
         persistent.setName(model.getName());
@@ -19,9 +19,22 @@ public class ModToPerCompany extends ModToPer<CompanyMod, CompanyPer> {
         return persistent;
     }
 
-    //TODO Add implementation
+
     @Override
     public Collection<CompanyPer> getPersistentListFrom(Collection<CompanyMod> modelList) {
-        return null;
+        checkNull(modelList);
+
+        Set<CompanyPer> companyPerSet = new LinkedHashSet<>(modelList.size());
+        for (CompanyMod temCompanyMod : modelList) {
+            companyPerSet.add(getPersistentFrom(temCompanyMod));
+        }
+        return companyPerSet;
+    }
+
+
+    private static void checkNull(Object item) {
+        if (item == null) {
+            throw new NullPointerException("Passed null value as 'item': ");
+        }
     }
 }
