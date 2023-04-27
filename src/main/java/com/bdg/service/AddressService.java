@@ -19,10 +19,35 @@ import java.util.Set;
 //TODO Sessianeri pahy petq a arvi sax methodnerum(get anel u close anel amen mi methodum)
 
 public class AddressService implements AddressRepository {
-
     private Session session;
+
     private static final ModToPerAddress MOD_TO_PER = new ModToPerAddress();
     private static final PerToModAddress PER_TO_MOD = new PerToModAddress();
+
+
+    @Override
+    public int getId(AddressMod addressMod) {
+        Validator.checkNull(addressMod);
+
+        for (AddressMod addressModTemp : getAll()) {
+            if (addressModTemp.equals(addressMod)) {
+                return addressModTemp.getId();
+            }
+        }
+        return -1;
+    }
+
+
+    public boolean exists(AddressMod addressMod) {
+        Validator.checkNull(addressMod);
+
+        for (AddressMod addressModTemp : getAll()) {
+            if (addressModTemp.equals(addressMod)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     @Override
@@ -167,6 +192,7 @@ public class AddressService implements AddressRepository {
         }
     }
 
+
     @Override
     public boolean deleteBy(int id) {
         Validator.checkId(id);
@@ -215,29 +241,5 @@ public class AddressService implements AddressRepository {
             transaction.rollback();
             throw new RuntimeException(e);
         }
-    }
-
-
-    public boolean exists(AddressMod addressMod) {
-        Validator.checkNull(addressMod);
-
-        for (AddressMod addressModTemp : getAll()) {
-            if (addressModTemp.equals(addressMod)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    public int getId(AddressMod addressMod) {
-        Validator.checkNull(addressMod);
-
-        for (AddressMod addressModTemp : getAll()) {
-            if (addressModTemp.equals(addressMod)) {
-                return addressModTemp.getId();
-            }
-        }
-        return -1;
     }
 }
