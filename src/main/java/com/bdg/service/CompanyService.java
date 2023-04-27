@@ -6,6 +6,7 @@ import com.bdg.model.CompanyMod;
 import com.bdg.persistent.CompanyPer;
 import com.bdg.persistent.TripPer;
 import com.bdg.repository.CompanyRepository;
+import com.bdg.validator.Validator;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -26,7 +27,7 @@ public class CompanyService implements CompanyRepository {
     @Override
 
     public CompanyMod getBy(int id) {
-        checkId(id);
+        Validator.checkId(id);
 
         Transaction transaction = null;
         try {
@@ -111,7 +112,7 @@ public class CompanyService implements CompanyRepository {
 
     @Override
     public CompanyMod save(CompanyMod item) {
-        checkNull(item);
+        Validator.checkNull(item);
 
         Transaction transaction = null;
         try {
@@ -133,8 +134,8 @@ public class CompanyService implements CompanyRepository {
 
     @Override
     public boolean updateBy(int id, CompanyMod item) {
-        checkId(id);
-        checkNull(item);
+        Validator.checkId(id);
+        Validator.checkNull(item);
 
         Transaction transaction = null;
         try {
@@ -161,7 +162,7 @@ public class CompanyService implements CompanyRepository {
 
     @Override
     public boolean deleteBy(int id) {
-        checkId(id);
+        Validator.checkId(id);
 
         if (existsTripBy(id)) {
             System.out.println("First remove company by " + id + " in trip table: ");
@@ -191,32 +192,15 @@ public class CompanyService implements CompanyRepository {
 
 
     public void setSession(Session session) {
-        checkNull(session);
+        Validator.checkNull(session);
         this.session = session;
     }
 
 
-    private void checkId(int id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("'id' must be a positive number: ");
-        }
-    }
-
-
-    private void checkNull(Object item) {
-        if (item == null) {
-            throw new NullPointerException("Passed null value as 'item': ");
-        }
-    }
-
-
     private Set<CompanyMod> getCompaniesModSetFrom(List<CompanyPer> companiesPerList) {
-        if (companiesPerList == null) {
-            throw new NullPointerException("Passed null value as 'companiesPerList': ");
-        }
+        Validator.checkNull(companiesPerList);
 
         Set<CompanyMod> companiesModSet = new LinkedHashSet<>(companiesPerList.size());
-
         for (CompanyPer tempCompanyPer : companiesPerList) {
             companiesModSet.add(PER_TO_MOD.getModelFrom(tempCompanyPer));
         }
@@ -225,7 +209,7 @@ public class CompanyService implements CompanyRepository {
 
 
     private boolean existsTripBy(int companyId) {
-        checkId(companyId);
+        Validator.checkId(companyId);
 
         Transaction transaction = null;
         try {

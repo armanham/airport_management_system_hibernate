@@ -1,5 +1,7 @@
 package com.bdg.model;
 
+import com.bdg.validator.Validator;
+
 public class PassengerMod {
 
     private int id;
@@ -24,9 +26,7 @@ public class PassengerMod {
     }
 
     public void setId(final int id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("'id' must be positive number: ");
-        }
+        Validator.checkId(id);
         this.id = id;
     }
 

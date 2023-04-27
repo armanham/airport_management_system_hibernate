@@ -1,5 +1,7 @@
 package com.bdg.model;
 
+import com.bdg.validator.Validator;
+
 import java.util.Objects;
 
 public class AddressMod {
@@ -22,9 +24,7 @@ public class AddressMod {
     }
 
     public void setId(final int id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("'id' must be positive number: ");
-        }
+        Validator.checkId(id);
         this.id = id;
     }
 

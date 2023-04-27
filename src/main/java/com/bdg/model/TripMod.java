@@ -1,5 +1,7 @@
 package com.bdg.model;
 
+import com.bdg.validator.Validator;
+
 import java.sql.Timestamp;
 
 public class TripMod {
@@ -36,9 +38,7 @@ public class TripMod {
     }
 
     public void setTripNumber(final int tripNumber) {
-        if (tripNumber <= 0) {
-            throw new IllegalArgumentException("'tripNumber' must be positive number: ");
-        }
+        Validator.checkId(tripNumber);
         this.tripNumber = tripNumber;
     }
 
@@ -47,7 +47,7 @@ public class TripMod {
     }
 
     public void setCompany(final CompanyMod companyMod) {
-        checkNull(companyMod);
+        Validator.checkNull(companyMod);
         this.companyMod = companyMod;
     }
 
@@ -83,7 +83,7 @@ public class TripMod {
     }
 
     public void setTimeOut(final Timestamp timeOut) {
-        checkNull(timeOut);
+        Validator.checkNull(timeOut);
         this.timeOut = timeOut;
     }
 
@@ -92,7 +92,7 @@ public class TripMod {
     }
 
     public void setTimeIn(final Timestamp timeIn) {
-        checkNull(timeIn);
+        Validator.checkNull(timeIn);
         this.timeIn = timeIn;
     }
 
@@ -112,12 +112,6 @@ public class TripMod {
     private void validateString(final String string) {
         if (string == null || string.isEmpty()) {
             throw new IllegalArgumentException("Passed null or empty value: ");
-        }
-    }
-
-    private void checkNull(final Object obj) {
-        if (obj == null) {
-            throw new NullPointerException("Passed null value: ");
         }
     }
 }

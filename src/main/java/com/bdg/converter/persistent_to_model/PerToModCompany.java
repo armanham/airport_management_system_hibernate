@@ -2,6 +2,7 @@ package com.bdg.converter.persistent_to_model;
 
 import com.bdg.model.CompanyMod;
 import com.bdg.persistent.CompanyPer;
+import com.bdg.validator.Validator;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -11,7 +12,7 @@ public class PerToModCompany extends PerToMod<CompanyPer, CompanyMod> {
 
     @Override
     public CompanyMod getModelFrom(CompanyPer persistent) {
-        checkNull(persistent);
+        Validator.checkNull(persistent);
 
         CompanyMod model = new CompanyMod();
         model.setId(persistent.getId());
@@ -23,19 +24,12 @@ public class PerToModCompany extends PerToMod<CompanyPer, CompanyMod> {
 
     @Override
     public Collection<CompanyMod> getModelListFrom(Collection<CompanyPer> persistentList) {
-        checkNull(persistentList);
+        Validator.checkNull(persistentList);
 
         Set<CompanyMod> companyModSet = new LinkedHashSet<>(persistentList.size());
         for (CompanyPer tempCompanyPer : persistentList) {
             companyModSet.add(getModelFrom(tempCompanyPer));
         }
         return companyModSet;
-    }
-
-
-    private static void checkNull(Object item) {
-        if (item == null) {
-            throw new NullPointerException("Passed null value as 'item': ");
-        }
     }
 }

@@ -7,6 +7,7 @@ import com.bdg.model.AddressMod;
 import com.bdg.persistent.AddressPer;
 import com.bdg.persistent.PassengerPer;
 import com.bdg.repository.AddressRepository;
+import com.bdg.validator.Validator;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 //TODO Sessianeri pahy petq a arvi sax methodnerum(get anel u close anel amen mi methodum)
-// check() method-neri hamar sarqel arandzin Validator class(hamarya sax service-nerum nuyn check-ery grum enq)
+
 public class AddressService implements AddressRepository {
 
     private Session session;
@@ -26,7 +27,7 @@ public class AddressService implements AddressRepository {
 
     @Override
     public AddressMod getBy(int id) {
-        checkId(id);
+        Validator.checkId(id);
 
         session = HibernateUtil.getSession();
         Transaction transaction = null;
@@ -114,7 +115,7 @@ public class AddressService implements AddressRepository {
 
     @Override
     public AddressMod save(AddressMod item) {
-        checkNull(item);
+        Validator.checkNull(item);
         if (exists(item)) {
             System.out.println("[" + item.getCountry() + ", " + item.getCity() + "] address already exists: ");
             return null;
@@ -141,8 +142,8 @@ public class AddressService implements AddressRepository {
 
     @Override
     public boolean updateBy(int id, AddressMod item) {
-        checkId(id);
-        checkNull(item);
+        Validator.checkId(id);
+        Validator.checkNull(item);
 
         Transaction transaction = null;
         try {
@@ -168,7 +169,7 @@ public class AddressService implements AddressRepository {
 
     @Override
     public boolean deleteBy(int id) {
-        checkId(id);
+        Validator.checkId(id);
 
         if (existsPassengerBy(id)) {
             System.out.println("First remove address by " + id + " in passenger table: ");
@@ -196,22 +197,8 @@ public class AddressService implements AddressRepository {
     }
 
 
-    private void checkId(int id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("'id' must be a positive number: ");
-        }
-    }
-
-
-    private void checkNull(Object item) {
-        if (item == null) {
-            throw new NullPointerException("Passed null value as 'item': ");
-        }
-    }
-
-
     private boolean existsPassengerBy(int addressId) {
-        checkId(addressId);
+        Validator.checkId(addressId);
 
         Transaction transaction = null;
         try {
@@ -232,7 +219,7 @@ public class AddressService implements AddressRepository {
 
 
     public boolean exists(AddressMod addressMod) {
-        checkNull(addressMod);
+        Validator.checkNull(addressMod);
 
         for (AddressMod addressModTemp : getAll()) {
             if (addressModTemp.equals(addressMod)) {
@@ -244,7 +231,7 @@ public class AddressService implements AddressRepository {
 
 
     public int getId(AddressMod addressMod) {
-        checkNull(addressMod);
+        Validator.checkNull(addressMod);
 
         for (AddressMod addressModTemp : getAll()) {
             if (addressModTemp.equals(addressMod)) {
