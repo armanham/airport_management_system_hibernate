@@ -13,11 +13,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.TypedQuery;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-//TODO Sesianery amen mi methodum bacel pakel
+
 public class CompanyService implements CompanyRepository {
 
     private Session session;
@@ -26,7 +25,6 @@ public class CompanyService implements CompanyRepository {
 
 
     @Override
-
     public CompanyMod getBy(int id) {
         Validator.checkId(id);
 
@@ -69,7 +67,7 @@ public class CompanyService implements CompanyRepository {
             }
 
             transaction.commit();
-            return getCompaniesModSetFrom(companiesPerlist);
+            return (Set<CompanyMod>) PER_TO_MOD.getModelListFrom(companiesPerlist);
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
@@ -109,7 +107,7 @@ public class CompanyService implements CompanyRepository {
             }
 
             transaction.commit();
-            return getCompaniesModSetFrom(companiesPerList);
+            return (Set<CompanyMod>) PER_TO_MOD.getModelListFrom(companiesPerList);
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
@@ -207,17 +205,6 @@ public class CompanyService implements CompanyRepository {
         } finally {
             session.close();
         }
-    }
-
-
-    private Set<CompanyMod> getCompaniesModSetFrom(List<CompanyPer> companiesPerList) {
-        Validator.checkNull(companiesPerList);
-
-        Set<CompanyMod> companiesModSet = new LinkedHashSet<>(companiesPerList.size());
-        for (CompanyPer tempCompanyPer : companiesPerList) {
-            companiesModSet.add(PER_TO_MOD.getModelFrom(tempCompanyPer));
-        }
-        return companiesModSet;
     }
 
 
