@@ -16,11 +16,10 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Set;
 
-//TODO Sessianeri pahy petq a arvi sax methodnerum(get anel u close anel amen mi methodum)
 
 public class AddressService implements AddressRepository {
-    private Session session;
 
+    private Session session;
     private static final ModToPerAddress MOD_TO_PER = new ModToPerAddress();
     private static final PerToModAddress PER_TO_MOD = new PerToModAddress();
 
@@ -79,6 +78,7 @@ public class AddressService implements AddressRepository {
 
     @Override
     public Set<AddressMod> getAll() {
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
 
         try {
@@ -98,6 +98,8 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
     }
 
@@ -114,6 +116,7 @@ public class AddressService implements AddressRepository {
             throw new IllegalArgumentException("Parameter 'sort' must be 'id' or 'country' or 'city': ");
         }
 
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -134,6 +137,8 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
     }
 
@@ -148,6 +153,7 @@ public class AddressService implements AddressRepository {
 
         AddressPer addressPer = MOD_TO_PER.getPersistentFrom(item);
 
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -161,6 +167,8 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
     }
 
@@ -170,6 +178,7 @@ public class AddressService implements AddressRepository {
         Validator.checkId(id);
         Validator.checkNull(item);
 
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -189,6 +198,8 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
     }
 
@@ -202,6 +213,7 @@ public class AddressService implements AddressRepository {
             return false;
         }
 
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -219,6 +231,8 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
     }
 
@@ -226,6 +240,7 @@ public class AddressService implements AddressRepository {
     private boolean existsPassengerBy(int addressId) {
         Validator.checkId(addressId);
 
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -240,6 +255,8 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
     }
 }
