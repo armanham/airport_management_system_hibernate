@@ -5,4 +5,5 @@ import com.bdg.repository.common.CommonRepository;
 
 public interface CompanyRepository extends CommonRepository<CompanyMod> {
 
+    boolean updateBy(int id, CompanyMod item);
 }

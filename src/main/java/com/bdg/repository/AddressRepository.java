@@ -8,4 +8,6 @@ public interface AddressRepository extends CommonRepository<AddressMod> {
     int getId(AddressMod addressMod);
 
     boolean exists(AddressMod addressMod);
+
+    boolean updateBy(int id, AddressMod item);
 }

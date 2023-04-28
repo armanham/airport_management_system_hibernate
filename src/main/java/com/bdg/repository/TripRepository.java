@@ -10,4 +10,6 @@ public interface TripRepository extends CommonRepository<TripMod> {
     List<TripMod> getAllFrom(String city);
 
     List<TripMod> getAllTo(String city);
+
+    boolean updateBy(int id, TripMod item);
 }

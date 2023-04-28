@@ -12,4 +12,6 @@ public interface PassengerRepository extends CommonRepository<PassengerMod> {
     boolean registerTrip(int id, int tripId);
 
     boolean cancelTrip(int id, int tripId);
+
+    boolean updateBy(int id, PassengerMod item);
 }
