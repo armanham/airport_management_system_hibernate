@@ -3,13 +3,17 @@ package com.bdg.repository;
 import com.bdg.model.TripMod;
 import com.bdg.repository.common.CommonRepository;
 
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.Set;
 
 public interface TripRepository extends CommonRepository<TripMod> {
 
-    List<TripMod> getAllFrom(String city);
+    Set<TripMod> getAllFrom(String city);
 
-    List<TripMod> getAllTo(String city);
+    Set<TripMod> getAllTo(String city);
 
-    boolean updateBy(int id, TripMod item);
+    boolean updateBy(int idToUpdate,
+                     String newAirplane, String newTownFrom, String newTownTo,
+                     Timestamp newTimeOut,
+                     Timestamp newTimeIn);
 }
