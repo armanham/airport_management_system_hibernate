@@ -9,5 +9,5 @@ public interface AddressRepository extends CommonRepository<AddressMod> {
 
     boolean exists(AddressMod addressMod);
 
-    boolean updateBy(int id, AddressMod item);
+    boolean updateBy(int id, String newCountry, String newCity);
 }

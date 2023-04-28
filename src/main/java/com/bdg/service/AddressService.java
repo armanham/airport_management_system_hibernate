@@ -174,9 +174,8 @@ public class AddressService implements AddressRepository {
 
 
     @Override
-    public boolean updateBy(int id, AddressMod item) {
+    public boolean updateBy(int id, String newCountry, String newCity) {
         Validator.checkId(id);
-        Validator.checkNull(item);
 
         session = HibernateUtil.getSession();
         Transaction transaction = null;
@@ -184,14 +183,18 @@ public class AddressService implements AddressRepository {
             transaction = session.beginTransaction();
 
             AddressPer addressPer = session.get(AddressPer.class, id);
-
             if (addressPer == null) {
                 transaction.rollback();
                 return false;
             }
 
-            addressPer.setCity(item.getCity());
-            addressPer.setCountry(item.getCountry());
+            if (!(newCountry == null || newCountry.isEmpty())) {
+                addressPer.setCountry(newCountry);
+            }
+            if (!(newCity == null || newCity.isEmpty())) {
+                addressPer.setCity(newCity);
+            }
+
             transaction.commit();
             return true;
         } catch (HibernateException e) {
