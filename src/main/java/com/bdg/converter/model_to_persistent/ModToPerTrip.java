@@ -1,4 +1,4 @@
-package com.bdg.converter.model_to_persistance;
+package com.bdg.converter.model_to_persistent;
 
 import com.bdg.model.TripMod;
 import com.bdg.persistent.TripPer;

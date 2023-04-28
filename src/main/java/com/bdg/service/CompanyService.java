@@ -1,6 +1,6 @@
 package com.bdg.service;
 
-import com.bdg.converter.model_to_persistance.ModToPerCompany;
+import com.bdg.converter.model_to_persistent.ModToPerCompany;
 import com.bdg.converter.persistent_to_model.PerToModCompany;
 import com.bdg.hibernate.HibernateUtil;
 import com.bdg.model.CompanyMod;
