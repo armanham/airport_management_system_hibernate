@@ -2,6 +2,7 @@ package com.bdg.service;
 
 import com.bdg.converter.model_to_persistance.ModToPerCompany;
 import com.bdg.converter.persistent_to_model.PerToModCompany;
+import com.bdg.hibernate.HibernateUtil;
 import com.bdg.model.CompanyMod;
 import com.bdg.persistent.CompanyPer;
 import com.bdg.persistent.TripPer;
@@ -29,6 +30,7 @@ public class CompanyService implements CompanyRepository {
     public CompanyMod getBy(int id) {
         Validator.checkId(id);
 
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -45,12 +47,15 @@ public class CompanyService implements CompanyRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
     }
 
 
     @Override
     public Set<CompanyMod> getAll() {
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -69,6 +74,8 @@ public class CompanyService implements CompanyRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
     }
 
@@ -85,6 +92,7 @@ public class CompanyService implements CompanyRepository {
             throw new IllegalArgumentException("Parameter 'sort' must be 'id' or 'name' or 'found_date': ");
         }
 
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -106,6 +114,8 @@ public class CompanyService implements CompanyRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
     }
 
@@ -114,6 +124,7 @@ public class CompanyService implements CompanyRepository {
     public CompanyMod save(CompanyMod item) {
         Validator.checkNull(item);
 
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -128,6 +139,8 @@ public class CompanyService implements CompanyRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
     }
 
@@ -137,6 +150,7 @@ public class CompanyService implements CompanyRepository {
         Validator.checkId(id);
         Validator.checkNull(item);
 
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -156,6 +170,8 @@ public class CompanyService implements CompanyRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
     }
 
@@ -169,6 +185,7 @@ public class CompanyService implements CompanyRepository {
             return false;
         }
 
+        session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -187,13 +204,9 @@ public class CompanyService implements CompanyRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
+        } finally {
+            session.close();
         }
-    }
-
-
-    public void setSession(Session session) {
-        Validator.checkNull(session);
-        this.session = session;
     }
 
 
