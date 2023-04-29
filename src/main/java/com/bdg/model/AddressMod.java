@@ -52,8 +52,8 @@ public class AddressMod extends BaseMod {
     @Override
     public String toString() {
         return "AddressMod{" +
-                ", id=" + getId() +
-                "country='" + country + '\'' +
+                "id=" + getId() +
+                ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 "}\n";
     }
