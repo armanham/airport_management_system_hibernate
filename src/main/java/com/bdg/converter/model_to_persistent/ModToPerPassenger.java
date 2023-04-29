@@ -4,10 +4,6 @@ import com.bdg.model.PassengerMod;
 import com.bdg.persistent.PassengerPer;
 import com.bdg.validator.Validator;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 public class ModToPerPassenger extends ModToPer<PassengerMod, PassengerPer> {
 
     private final static ModToPerAddress MOD_TO_PER_ADDRESS = new ModToPerAddress();
@@ -21,17 +17,5 @@ public class ModToPerPassenger extends ModToPer<PassengerMod, PassengerPer> {
         persistent.setPhone(model.getPhone());
         persistent.setAddress(MOD_TO_PER_ADDRESS.getPersistentFrom(model.getAddress()));
         return persistent;
-    }
-
-
-    @Override
-    public Collection<PassengerPer> getPersistentListFrom(Collection<PassengerMod> modelList) {
-        Validator.checkNull(modelList);
-
-        Set<PassengerPer> passengerPerSet = new LinkedHashSet<>(modelList.size());
-        for (PassengerMod tempPassengerMod : modelList) {
-            passengerPerSet.add(getPersistentFrom(tempPassengerMod));
-        }
-        return passengerPerSet;
     }
 }
