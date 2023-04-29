@@ -1,6 +1,10 @@
 package com.bdg.converter.persistent_to_model;
 
+import com.bdg.validator.Validator;
+
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public abstract class PerToMod<P, M> {
 
@@ -9,5 +13,13 @@ public abstract class PerToMod<P, M> {
 
     public abstract M getModelFrom(P persistent);
 
-    public abstract Collection<M> getModelListFrom(Collection<P> persistentList);
+    public Collection<M> getModelListFrom(Collection<P> persistentList) {
+        Validator.checkNull(persistentList);
+
+        Set<M> modelList = new LinkedHashSet<>(persistentList.size());
+        for (P tempPer : persistentList) {
+            modelList.add(getModelFrom(tempPer));
+        }
+        return modelList;
+    }
 }

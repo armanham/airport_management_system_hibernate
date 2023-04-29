@@ -4,10 +4,6 @@ import com.bdg.model.PassInTripMod;
 import com.bdg.persistent.PassInTripPer;
 import com.bdg.validator.Validator;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 public class PerToModPassInTrip extends PerToMod<PassInTripPer, PassInTripMod> {
 
     private static final PerToModTrip PER_TO_MOD_TRIP = new PerToModTrip();
@@ -24,18 +20,7 @@ public class PerToModPassInTrip extends PerToMod<PassInTripPer, PassInTripMod> {
         model.setTrip(PER_TO_MOD_TRIP.getModelFrom(persistent.getTrip()));
         model.setPlace(persistent.getPlace());
         model.setTime(persistent.getTime());
-        return null;
-    }
 
-
-    @Override
-    public Collection<PassInTripMod> getModelListFrom(Collection<PassInTripPer> persistentList) {
-        Validator.checkNull(persistentList);
-
-        Set<PassInTripMod> modelSet = new LinkedHashSet<>(persistentList.size());
-        for (PassInTripPer tempPassInTripPer : persistentList) {
-            modelSet.add(getModelFrom(tempPassInTripPer));
-        }
-        return modelSet;
+        return model;
     }
 }
