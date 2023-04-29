@@ -1,0 +1,40 @@
+package com.bdg.converter.model_to_persistent;
+
+import com.bdg.model.PassInTripMod;
+import com.bdg.persistent.PassInTripPer;
+import com.bdg.validator.Validator;
+
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+public class ModToPerPassInTrip extends ModToPer<PassInTripMod, PassInTripPer> {
+
+    private static final ModToPerTrip MOD_TO_PER_TRIP = new ModToPerTrip();
+    private static final ModToPerPassenger MOD_TO_PER_PASSENGER = new ModToPerPassenger();
+
+
+    @Override
+    public PassInTripPer getPersistentFrom(PassInTripMod model) {
+        Validator.checkNull(model);
+
+        PassInTripPer persistent = new PassInTripPer();
+        persistent.setTrip(MOD_TO_PER_TRIP.getPersistentFrom(model.getTrip()));
+        persistent.setPassenger(MOD_TO_PER_PASSENGER.getPersistentFrom(model.getPassenger()));
+        persistent.setPlace(model.getPlace());
+        persistent.setTime(model.getTime());
+        return null;
+    }
+
+
+    @Override
+    public Collection<PassInTripPer> getPersistentListFrom(Collection<PassInTripMod> modelList) {
+        Validator.checkNull(modelList);
+
+        Set<PassInTripPer> persistentSet = new LinkedHashSet<>(modelList.size());
+        for (PassInTripMod tempPassInTripMod : modelList) {
+            persistentSet.add(getPersistentFrom(tempPassInTripMod));
+        }
+        return persistentSet;
+    }
+}
