@@ -19,7 +19,6 @@ import java.util.Set;
 
 public class TripService implements TripRepository {
 
-    private Session session;
     private static final PerToModTrip PER_TO_MOD = new PerToModTrip();
     private static final ModToPerTrip MOD_TO_PER = new ModToPerTrip();
 
@@ -56,9 +55,8 @@ public class TripService implements TripRepository {
     public TripMod getBy(int id) {
         Validator.checkId(id);
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             TripPer trip = session.get(TripPer.class, id);
@@ -73,17 +71,14 @@ public class TripService implements TripRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
 
     @Override
     public Set<TripMod> getAll() {
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
             TypedQuery<TripPer> query = session.createQuery("FROM TripPer ", TripPer.class);
 
@@ -98,8 +93,6 @@ public class TripService implements TripRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -120,9 +113,8 @@ public class TripService implements TripRepository {
                     "'tripNumber' or 'company' or 'airplane' or 'townFrom' or 'townTo' or 'timeOut' or 'timeIn': ");
         }
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             TypedQuery<TripPer> query = session.createQuery("FROM TripPer order by " + sort);
@@ -140,8 +132,6 @@ public class TripService implements TripRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -159,9 +149,8 @@ public class TripService implements TripRepository {
                             Timestamp newTimeIn) {
         Validator.checkId(idToUpdate);
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             TripPer trip = session.get(TripPer.class, idToUpdate);
@@ -192,8 +181,6 @@ public class TripService implements TripRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -206,9 +193,8 @@ public class TripService implements TripRepository {
             return false;
         }
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             TripPer trip = session.get(TripPer.class, id);
@@ -224,8 +210,6 @@ public class TripService implements TripRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -233,9 +217,8 @@ public class TripService implements TripRepository {
     private boolean existsPassInTripBy(int tripId) {
         Validator.checkId(tripId);
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
             String hql = "select pt from PassInTripPer as pt where pt.trip = :tripId";
             TypedQuery<PassInTripPer> passInTripTypedQuery = session.createQuery(hql);
@@ -247,8 +230,6 @@ public class TripService implements TripRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 }
