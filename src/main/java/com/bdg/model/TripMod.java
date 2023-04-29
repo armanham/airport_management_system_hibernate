@@ -1,12 +1,12 @@
 package com.bdg.model;
 
+import com.bdg.model.common.BaseMod;
 import com.bdg.validator.Validator;
 
 import java.sql.Timestamp;
 
-public class TripMod {
+public class TripMod extends BaseMod {
 
-    private int tripNumber;
     private CompanyMod company;
     private String airplane;
     private String townFrom;
@@ -14,16 +14,15 @@ public class TripMod {
     private Timestamp timeOut;
     private Timestamp timeIn;
 
-
     public TripMod(
-            final int tripNumber,
+            final int id,
             final CompanyMod company,
             final String airplane,
             final String townFrom,
             final String townTo,
             final Timestamp timeOut,
             final Timestamp timeIn) {
-        setTripNumber(tripNumber);
+        super(id);
         setCompany(company);
         setAirplane(airplane);
         setTownFrom(townFrom);
@@ -33,16 +32,6 @@ public class TripMod {
     }
 
     public TripMod() {
-    }
-
-
-    public int getTripNumber() {
-        return tripNumber;
-    }
-
-    public void setTripNumber(final int tripNumber) {
-        Validator.checkId(tripNumber);
-        this.tripNumber = tripNumber;
     }
 
     public CompanyMod getCompany() {
@@ -99,11 +88,10 @@ public class TripMod {
         this.timeIn = timeIn;
     }
 
-
     @Override
     public String toString() {
         return "Trip{" +
-                "tripNumber=" + tripNumber +
+                "id=" + getId() +
                 ", company=" + company +
                 ", airplane='" + airplane + '\'' +
                 ", townFrom='" + townFrom + '\'' +

@@ -1,14 +1,13 @@
 package com.bdg.model;
 
+import com.bdg.model.common.BaseMod;
 import com.bdg.validator.Validator;
 
-public class PassengerMod {
+public class PassengerMod extends BaseMod {
 
-    private int id;
     private String name;
     private String phone;
     private AddressMod addressMod;
-
 
     public PassengerMod(
             final String name,
@@ -20,16 +19,6 @@ public class PassengerMod {
     }
 
     public PassengerMod() {
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(final int id) {
-        Validator.checkId(id);
-        this.id = id;
     }
 
     public String getName() {
@@ -59,11 +48,10 @@ public class PassengerMod {
         this.addressMod = addressMod;
     }
 
-
     @Override
     public String toString() {
         return "Passenger{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address=" + addressMod +

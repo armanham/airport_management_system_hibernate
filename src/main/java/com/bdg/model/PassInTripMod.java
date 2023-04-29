@@ -1,19 +1,18 @@
 package com.bdg.model;
 
+import com.bdg.model.common.BaseMod;
 import com.bdg.validator.Validator;
 
 import java.sql.Timestamp;
 import java.util.Objects;
 
 
-public class PassInTripMod {
+public class PassInTripMod extends BaseMod {
 
-    private int id;
     private TripMod trip;
     private PassengerMod passenger;
     private String place;
     private Timestamp time;
-
 
     public PassInTripMod(
             final TripMod trip,
@@ -27,16 +26,6 @@ public class PassInTripMod {
     }
 
     public PassInTripMod() {
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(final int id) {
-        Validator.checkId(id);
-        this.id = id;
     }
 
     public TripMod getTrip() {
@@ -75,7 +64,6 @@ public class PassInTripMod {
         this.time = time;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,11 +77,10 @@ public class PassInTripMod {
         return Objects.hash(trip, passenger, place);
     }
 
-
     @Override
     public String toString() {
         return "PassInTripMod{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", trip=" + trip +
                 ", passenger=" + passenger +
                 ", time=" + time +

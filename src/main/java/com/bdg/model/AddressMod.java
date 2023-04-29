@@ -1,15 +1,14 @@
 package com.bdg.model;
 
+import com.bdg.model.common.BaseMod;
 import com.bdg.validator.Validator;
 
 import java.util.Objects;
 
-public class AddressMod {
+public class AddressMod extends BaseMod {
 
-    private int id;
     private String country;
     private String city;
-
 
     public AddressMod(final String country, final String city) {
         setCountry(country);
@@ -18,17 +17,6 @@ public class AddressMod {
 
     public AddressMod() {
     }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(final int id) {
-        Validator.checkId(id);
-        this.id = id;
-    }
-
 
     public String getCountry() {
         return country;
@@ -39,7 +27,6 @@ public class AddressMod {
         this.country = country;
     }
 
-
     public String getCity() {
         return city;
     }
@@ -48,7 +35,6 @@ public class AddressMod {
         Validator.validateString(city);
         this.city = city;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -63,12 +49,11 @@ public class AddressMod {
         return Objects.hash(country, city);
     }
 
-
     @Override
     public String toString() {
-        return "Address{" +
-                "id=" + id +
-                ", country='" + country + '\'' +
+        return "AddressMod{" +
+                ", id=" + getId() +
+                "country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 "}\n";
     }

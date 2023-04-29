@@ -1,16 +1,15 @@
 package com.bdg.model;
 
+import com.bdg.model.common.BaseMod;
 import com.bdg.validator.Validator;
 
 import java.sql.Date;
 import java.util.Objects;
 
-public class CompanyMod {
+public class CompanyMod extends BaseMod {
 
-    private int id;
     private String name;
     private Date foundDate;
-
 
     public CompanyMod(final String name, final Date foundDate) {
         setName(name);
@@ -18,16 +17,6 @@ public class CompanyMod {
     }
 
     public CompanyMod() {
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(final int id) {
-        Validator.checkId(id);
-        this.id = id;
     }
 
     public String getName() {
@@ -48,7 +37,6 @@ public class CompanyMod {
         this.foundDate = foundDate;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,11 +50,10 @@ public class CompanyMod {
         return Objects.hash(name, foundDate);
     }
 
-
     @Override
     public String toString() {
         return "Company{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", name='" + name + '\'' +
                 ", foundDate=" + foundDate +
                 "}\n";
