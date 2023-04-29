@@ -1,5 +1,6 @@
 package com.bdg.insert_into_db;
 
+import com.bdg.hibernate.HibernateUtil;
 import com.bdg.persistent.*;
 import com.bdg.validator.Validator;
 import org.hibernate.Session;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Inserter {
+
     private static final String ROOT_PATH =
             "C:\\Users\\user\\Java Projects\\airport_management_system_hibernate\\src\\main\\resources\\txt\\";
     private static final Path PATH_COMPANY_TXT = Path.of(ROOT_PATH + "companies.txt");
@@ -24,14 +26,11 @@ public class Inserter {
     private static final Path PATH_PASSINTRIP_TXT = Path.of(ROOT_PATH + "pass_in_trip.txt");
 
 
-    private Session session;
-
-
     public void insertCompanyTable() {
         Transaction transaction = null;
         List<String> lines = readLinesOfFileFrom(PATH_COMPANY_TXT);
 
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
@@ -66,7 +65,7 @@ public class Inserter {
         Transaction transaction = null;
         List<String> lines = readLinesOfFileFrom(PATH_ADDRESS_TXT);
 
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
@@ -93,7 +92,7 @@ public class Inserter {
         Transaction transaction = null;
         List<String> lines = readLinesOfFileFrom(PATH_PASSENGER_TXT);
 
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
@@ -127,7 +126,7 @@ public class Inserter {
         Transaction transaction = null;
         List<String> lines = readLinesOfFileFrom(PATH_TRIP_TXT);
 
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
@@ -165,7 +164,7 @@ public class Inserter {
         Transaction transaction = null;
         List<String> lines = readLinesOfFileFrom(PATH_PASSINTRIP_TXT);
 
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             for (int i = 0; i < (lines != null ? lines.size() : 0); i++) {
@@ -210,11 +209,5 @@ public class Inserter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-
-    public void setSession(Session session) {
-        Validator.checkNull(session);
-        this.session = session;
     }
 }
