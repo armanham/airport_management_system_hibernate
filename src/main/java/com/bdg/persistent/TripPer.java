@@ -8,11 +8,11 @@ import java.sql.Timestamp;
 public class TripPer {
 
     @Id
-    @Column(name = "trip_number")
+    @Column(name = "trip_number", updatable = false)
     private int tripNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false, updatable = false)
     private CompanyPer company;
 
     @Column(nullable = false, length = 24)

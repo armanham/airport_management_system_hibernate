@@ -1,14 +1,12 @@
 package com.bdg.persistent;
 
+import com.bdg.persistent.common.BaseEntity;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "passenger")
-public class PassengerPer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class PassengerPer extends BaseEntity {
 
     @Column(nullable = false, length = 24)
     private String name;
@@ -17,19 +15,11 @@ public class PassengerPer {
     private String phone;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = true)
+    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     private AddressPer address;
 
 
     public PassengerPer() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(final int id) {
-        this.id = id;
     }
 
     public String getName() {

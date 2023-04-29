@@ -1,15 +1,13 @@
 package com.bdg.persistent;
 
+import com.bdg.persistent.common.BaseEntity;
+
 import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
 @Table(name = "company")
-public class CompanyPer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class CompanyPer extends BaseEntity {
 
     @Column(nullable = false, length = 24)
     private String name;
@@ -18,14 +16,6 @@ public class CompanyPer {
     private Date foundDate;
 
     public CompanyPer() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(final int id) {
-        this.id = id;
     }
 
     public String getName() {

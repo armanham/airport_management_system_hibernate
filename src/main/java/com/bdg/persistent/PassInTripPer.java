@@ -1,5 +1,7 @@
 package com.bdg.persistent;
 
+import com.bdg.persistent.common.BaseEntity;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -8,24 +10,20 @@ import java.sql.Timestamp;
         name = "pass_in_trip",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"trip_number", "passenger_id", "place"})}
 )
-public class PassInTripPer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class PassInTripPer extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "trip_number", referencedColumnName = "trip_number")
-    private TripPer tripPer;
+    @JoinColumn(name = "trip_number", referencedColumnName = "trip_number", nullable = false)
+    private TripPer trip;
 
     @ManyToOne
-    @JoinColumn(name = "passenger_id", referencedColumnName = "id")
+    @JoinColumn(name = "passenger_id", referencedColumnName = "id", nullable = false)
     private PassengerPer passenger;
 
     @Column(updatable = false, nullable = false)
     private Timestamp time;
 
-    @Column(name = "place", nullable = false, updatable = false, length = 3)
+    @Column(nullable = false, updatable = false, length = 3)
     private String place;
 
 
@@ -33,20 +31,12 @@ public class PassInTripPer {
     }
 
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public TripPer getTrip() {
-        return tripPer;
+        return trip;
     }
 
-    public void setTrip(TripPer tripPer) {
-        this.tripPer = tripPer;
+    public void setTrip(TripPer trip) {
+        this.trip = trip;
     }
 
     public PassengerPer getPassenger() {

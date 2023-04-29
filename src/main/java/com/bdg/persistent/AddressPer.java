@@ -1,20 +1,15 @@
 package com.bdg.persistent;
 
-import javax.persistence.*;
+import com.bdg.persistent.common.BaseEntity;
 
-//TODO Karanq sax Entity-neri hamar sarqenq mi hat abstract class,,,,
-// id-n saxi hamar ira getter/setter-nerov nuynna
+import javax.persistence.*;
 
 @Entity
 @Table(
         name = "address",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"country", "city"})}
 )
-public class AddressPer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class AddressPer extends BaseEntity {
 
     @Column(nullable = false, length = 50)
     private String country;
@@ -23,14 +18,6 @@ public class AddressPer {
     private String city;
 
     public AddressPer() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getCountry() {

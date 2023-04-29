@@ -15,13 +15,9 @@ import java.util.Set;
 
 public class PassengerService implements PassengerRepository {
 
-    private final Session session;
-
+    private Session session;
     private static final AddressService ADDRESS_SERVICE = new AddressService();
 
-    public PassengerService() {
-        session = HibernateUtil.getSession();
-    }
 
     @Override
     public List<PassengerMod> getAllOf(int tripId) {
