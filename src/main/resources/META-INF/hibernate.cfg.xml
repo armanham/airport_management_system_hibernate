@@ -19,5 +19,6 @@
         <mapping class="com.bdg.persistent.PassengerPer"/>
         <mapping class="com.bdg.persistent.TripPer"/>
         <mapping class="com.bdg.persistent.PassInTripPer"/>
+        <mapping class="com.bdg.persistent.common.BaseEntity"/>
     </session-factory>
 </hibernate-configuration>
