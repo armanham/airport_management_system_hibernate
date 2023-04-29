@@ -1,9 +1,12 @@
 package com.bdg.model;
 
 import com.bdg.model.common.BaseMod;
-import com.bdg.validator.Validator;
 
 import java.sql.Timestamp;
+
+import static com.bdg.validator.Validator.checkNull;
+import static com.bdg.validator.Validator.validateString;
+
 
 public class TripMod extends BaseMod {
 
@@ -39,7 +42,7 @@ public class TripMod extends BaseMod {
     }
 
     public void setCompany(final CompanyMod companyMod) {
-        Validator.checkNull(companyMod);
+        checkNull(companyMod);
         this.company = companyMod;
     }
 
@@ -48,7 +51,7 @@ public class TripMod extends BaseMod {
     }
 
     public void setAirplane(final String airplane) {
-        Validator.validateString(airplane);
+        validateString(airplane);
         this.airplane = airplane;
     }
 
@@ -57,7 +60,7 @@ public class TripMod extends BaseMod {
     }
 
     public void setTownFrom(final String townFrom) {
-        Validator.validateString(townFrom);
+        validateString(townFrom);
         this.townFrom = townFrom;
     }
 
@@ -66,7 +69,7 @@ public class TripMod extends BaseMod {
     }
 
     public void setTownTo(final String townTo) {
-        Validator.validateString(townTo);
+        validateString(townTo);
         this.townTo = townTo;
     }
 
@@ -75,7 +78,7 @@ public class TripMod extends BaseMod {
     }
 
     public void setTimeOut(final Timestamp timeOut) {
-        Validator.checkNull(timeOut);
+        checkNull(timeOut);
         this.timeOut = timeOut;
     }
 
@@ -84,7 +87,7 @@ public class TripMod extends BaseMod {
     }
 
     public void setTimeIn(final Timestamp timeIn) {
-        Validator.checkNull(timeIn);
+        checkNull(timeIn);
         this.timeIn = timeIn;
     }
 

@@ -1,7 +1,10 @@
 package com.bdg.model;
 
 import com.bdg.model.common.BaseMod;
-import com.bdg.validator.Validator;
+
+import static com.bdg.validator.Validator.checkNull;
+import static com.bdg.validator.Validator.validateString;
+
 
 public class PassengerMod extends BaseMod {
 
@@ -26,7 +29,7 @@ public class PassengerMod extends BaseMod {
     }
 
     public void setName(final String name) {
-        Validator.validateString(name);
+        validateString(name);
         this.name = name;
     }
 
@@ -35,7 +38,7 @@ public class PassengerMod extends BaseMod {
     }
 
     public void setPhone(final String phone) {
-        Validator.validateString(phone);
+        validateString(phone);
         this.phone = phone;
     }
 
@@ -44,7 +47,7 @@ public class PassengerMod extends BaseMod {
     }
 
     public void setAddress(final AddressMod addressMod) {
-        Validator.checkNull(addressMod);
+        checkNull(addressMod);
         this.addressMod = addressMod;
     }
 

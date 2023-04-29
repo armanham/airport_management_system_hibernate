@@ -1,9 +1,11 @@
 package com.bdg.model;
 
 import com.bdg.model.common.BaseMod;
-import com.bdg.validator.Validator;
 
 import java.util.Objects;
+
+import static com.bdg.validator.Validator.validateString;
+
 
 public class AddressMod extends BaseMod {
 
@@ -23,7 +25,7 @@ public class AddressMod extends BaseMod {
     }
 
     public void setCountry(final String country) {
-        Validator.validateString(country);
+        validateString(country);
         this.country = country;
     }
 
@@ -32,7 +34,7 @@ public class AddressMod extends BaseMod {
     }
 
     public void setCity(final String city) {
-        Validator.validateString(city);
+        validateString(city);
         this.city = city;
     }
 

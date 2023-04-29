@@ -1,10 +1,12 @@
 package com.bdg.model;
 
 import com.bdg.model.common.BaseMod;
-import com.bdg.validator.Validator;
 
 import java.sql.Timestamp;
 import java.util.Objects;
+
+import static com.bdg.validator.Validator.checkNull;
+import static com.bdg.validator.Validator.validateString;
 
 
 public class PassInTripMod extends BaseMod {
@@ -33,7 +35,7 @@ public class PassInTripMod extends BaseMod {
     }
 
     public void setTrip(final TripMod trip) {
-        Validator.checkNull(trip);
+        checkNull(trip);
         this.trip = trip;
     }
 
@@ -42,7 +44,7 @@ public class PassInTripMod extends BaseMod {
     }
 
     public void setPassenger(final PassengerMod passenger) {
-        Validator.checkNull(passenger);
+        checkNull(passenger);
         this.passenger = passenger;
     }
 
@@ -51,7 +53,7 @@ public class PassInTripMod extends BaseMod {
     }
 
     public void setPlace(final String place) {
-        Validator.validateString(place);
+        validateString(place);
         this.place = place;
     }
 
@@ -60,7 +62,7 @@ public class PassInTripMod extends BaseMod {
     }
 
     public void setTime(final Timestamp time) {
-        Validator.checkNull(time);
+        checkNull(time);
         this.time = time;
     }
 

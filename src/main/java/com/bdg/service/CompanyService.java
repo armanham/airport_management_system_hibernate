@@ -7,13 +7,15 @@ import com.bdg.model.CompanyMod;
 import com.bdg.persistent.CompanyPer;
 import com.bdg.persistent.TripPer;
 import com.bdg.repository.CompanyRepository;
-import com.bdg.validator.Validator;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.TypedQuery;
 import java.util.Set;
+
+import static com.bdg.validator.Validator.checkId;
+import static com.bdg.validator.Validator.checkNull;
 
 
 public class CompanyService implements CompanyRepository {
@@ -24,7 +26,7 @@ public class CompanyService implements CompanyRepository {
 
     @Override
     public CompanyMod getBy(int id) {
-        Validator.checkId(id);
+        checkId(id);
 
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
@@ -106,7 +108,7 @@ public class CompanyService implements CompanyRepository {
 
     @Override
     public CompanyMod save(CompanyMod item) {
-        Validator.checkNull(item);
+        checkNull(item);
 
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
@@ -128,8 +130,8 @@ public class CompanyService implements CompanyRepository {
 
     @Override
     public boolean updateBy(int id, CompanyMod item) {
-        Validator.checkId(id);
-        Validator.checkNull(item);
+        checkId(id);
+        checkNull(item);
 
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
@@ -156,7 +158,7 @@ public class CompanyService implements CompanyRepository {
 
     @Override
     public boolean deleteBy(int id) {
-        Validator.checkId(id);
+        checkId(id);
 
         if (existsTripBy(id)) {
             System.out.println("First remove company by " + id + " in trip table: ");
@@ -186,7 +188,7 @@ public class CompanyService implements CompanyRepository {
 
 
     private boolean existsTripBy(int companyId) {
-        Validator.checkId(companyId);
+        checkId(companyId);
 
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {

@@ -13,9 +13,11 @@ import org.hibernate.Transaction;
 import java.util.List;
 import java.util.Set;
 
+import static com.bdg.validator.Validator.checkId;
+import static com.bdg.validator.Validator.checkNull;
+
 public class PassengerService implements PassengerRepository {
 
-    private Session session;
     private static final AddressService ADDRESS_SERVICE = new AddressService();
 
 
@@ -39,7 +41,7 @@ public class PassengerService implements PassengerRepository {
         checkId(id);
 
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             PassengerPer passengerPer = session.get(PassengerPer.class, id);
@@ -94,7 +96,7 @@ public class PassengerService implements PassengerRepository {
         int idOfAddress = ADDRESS_SERVICE.getId(item.getAddress());
 
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             PassengerPer passengerPer = new PassengerPer();
@@ -136,19 +138,5 @@ public class PassengerService implements PassengerRepository {
     public boolean deleteBy(int id) {
         checkId(id);
         return false;
-    }
-
-
-    private void checkId(int id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("'id' must be a positive number: ");
-        }
-    }
-
-
-    private void checkNull(Object item) {
-        if (item == null) {
-            throw new NullPointerException("Passed null value as 'item': ");
-        }
     }
 }

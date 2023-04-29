@@ -1,6 +1,6 @@
 package com.bdg.model.common;
 
-import com.bdg.validator.Validator;
+import static com.bdg.validator.Validator.checkId;
 
 public abstract class BaseMod {
 
@@ -18,7 +18,7 @@ public abstract class BaseMod {
     }
 
     public void setId(final int id) {
-        Validator.checkId(id);
+        checkId(id);
         this.id = id;
     }
 }

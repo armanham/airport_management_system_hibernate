@@ -7,7 +7,6 @@ import com.bdg.model.TripMod;
 import com.bdg.persistent.PassInTripPer;
 import com.bdg.persistent.TripPer;
 import com.bdg.repository.TripRepository;
-import com.bdg.validator.Validator;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -17,6 +16,10 @@ import java.sql.Timestamp;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import static com.bdg.validator.Validator.checkId;
+import static com.bdg.validator.Validator.validateString;
+
+
 public class TripService implements TripRepository {
 
     private static final PerToModTrip PER_TO_MOD = new PerToModTrip();
@@ -25,7 +28,7 @@ public class TripService implements TripRepository {
 
     @Override
     public Set<TripMod> getAllFrom(String city) {
-        Validator.validateString(city);
+        validateString(city);
 
         Set<TripMod> tripModSet = new LinkedHashSet<>();
         for (TripMod trip : getAll()) {
@@ -39,7 +42,7 @@ public class TripService implements TripRepository {
 
     @Override
     public Set<TripMod> getAllTo(String city) {
-        Validator.validateString(city);
+        validateString(city);
 
         Set<TripMod> tripModSet = new LinkedHashSet<>();
         for (TripMod trip : getAll()) {
@@ -53,7 +56,7 @@ public class TripService implements TripRepository {
 
     @Override
     public TripMod getBy(int id) {
-        Validator.checkId(id);
+        checkId(id);
 
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
@@ -147,7 +150,7 @@ public class TripService implements TripRepository {
                             String newAirplane, String newTownFrom, String newTownTo,
                             Timestamp newTimeOut,
                             Timestamp newTimeIn) {
-        Validator.checkId(idToUpdate);
+        checkId(idToUpdate);
 
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
@@ -187,7 +190,7 @@ public class TripService implements TripRepository {
 
     @Override
     public boolean deleteBy(int id) {
-        Validator.checkId(id);
+        checkId(id);
         if (existsPassInTripBy(id)) {
             System.out.println("First remove Trip by " + id + " in PassInTrip table: ");
             return false;
@@ -215,7 +218,7 @@ public class TripService implements TripRepository {
 
 
     private boolean existsPassInTripBy(int tripId) {
-        Validator.checkId(tripId);
+        checkId(tripId);
 
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {

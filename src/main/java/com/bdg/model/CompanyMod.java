@@ -1,10 +1,13 @@
 package com.bdg.model;
 
 import com.bdg.model.common.BaseMod;
-import com.bdg.validator.Validator;
 
 import java.sql.Date;
 import java.util.Objects;
+
+import static com.bdg.validator.Validator.checkNull;
+import static com.bdg.validator.Validator.validateString;
+
 
 public class CompanyMod extends BaseMod {
 
@@ -24,7 +27,7 @@ public class CompanyMod extends BaseMod {
     }
 
     public void setName(final String name) {
-        Validator.validateString(name);
+        validateString(name);
         this.name = name;
     }
 
@@ -33,7 +36,7 @@ public class CompanyMod extends BaseMod {
     }
 
     public void setFoundDate(final Date foundDate) {
-        Validator.checkNull(foundDate);
+        checkNull(foundDate);
         this.foundDate = foundDate;
     }
 

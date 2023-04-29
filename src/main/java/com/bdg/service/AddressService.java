@@ -7,13 +7,15 @@ import com.bdg.model.AddressMod;
 import com.bdg.persistent.AddressPer;
 import com.bdg.persistent.PassengerPer;
 import com.bdg.repository.AddressRepository;
-import com.bdg.validator.Validator;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.TypedQuery;
 import java.util.Set;
+
+import static com.bdg.validator.Validator.checkId;
+import static com.bdg.validator.Validator.checkNull;
 
 
 public class AddressService implements AddressRepository {
@@ -24,7 +26,7 @@ public class AddressService implements AddressRepository {
 
     @Override
     public int getId(AddressMod addressMod) {
-        Validator.checkNull(addressMod);
+        checkNull(addressMod);
 
         for (AddressMod addressModTemp : getAll()) {
             if (addressModTemp.equals(addressMod)) {
@@ -36,7 +38,7 @@ public class AddressService implements AddressRepository {
 
 
     public boolean exists(AddressMod addressMod) {
-        Validator.checkNull(addressMod);
+        checkNull(addressMod);
 
         for (AddressMod addressModTemp : getAll()) {
             if (addressModTemp.equals(addressMod)) {
@@ -49,7 +51,7 @@ public class AddressService implements AddressRepository {
 
     @Override
     public AddressMod getBy(int id) {
-        Validator.checkId(id);
+        checkId(id);
 
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
@@ -131,7 +133,7 @@ public class AddressService implements AddressRepository {
 
     @Override
     public AddressMod save(AddressMod item) {
-        Validator.checkNull(item);
+        checkNull(item);
         if (exists(item)) {
             System.out.println("[" + item.getCountry() + ", " + item.getCity() + "] address already exists: ");
             return null;
@@ -158,7 +160,7 @@ public class AddressService implements AddressRepository {
 
     @Override
     public boolean updateBy(int id, String newCountry, String newCity) {
-        Validator.checkId(id);
+        checkId(id);
 
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
@@ -189,7 +191,7 @@ public class AddressService implements AddressRepository {
 
     @Override
     public boolean deleteBy(int id) {
-        Validator.checkId(id);
+        checkId(id);
 
         if (existsPassengerBy(id)) {
             System.out.println("First remove address by " + id + " in passenger table: ");
@@ -218,7 +220,7 @@ public class AddressService implements AddressRepository {
 
 
     private boolean existsPassengerBy(int addressId) {
-        Validator.checkId(addressId);
+        checkId(addressId);
 
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSession()) {
