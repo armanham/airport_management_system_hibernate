@@ -9,7 +9,6 @@ public class ModToPerTrip extends ModToPer<TripMod, TripPer> {
 
     private static final ModToPerCompany MOD_TO_PER_COMPANY = new ModToPerCompany();
 
-
     @Override
     public TripPer getPersistentFrom(TripMod model) {
         Validator.checkNull(model);

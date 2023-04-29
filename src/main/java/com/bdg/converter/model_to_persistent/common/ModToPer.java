@@ -20,6 +20,7 @@ public abstract class ModToPer<M, P> {
         for (M tempMod : modelList) {
             persistentSet.add(getPersistentFrom(tempMod));
         }
+
         return persistentSet;
     }
 }

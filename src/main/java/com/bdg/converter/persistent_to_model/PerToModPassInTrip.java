@@ -10,7 +10,6 @@ public class PerToModPassInTrip extends PerToMod<PassInTripPer, PassInTripMod> {
     private static final PerToModTrip PER_TO_MOD_TRIP = new PerToModTrip();
     private static final PerToModPassenger PER_TO_MOD_PASSENGER = new PerToModPassenger();
 
-
     @Override
     public PassInTripMod getModelFrom(PassInTripPer persistent) {
         Validator.checkNull(persistent);

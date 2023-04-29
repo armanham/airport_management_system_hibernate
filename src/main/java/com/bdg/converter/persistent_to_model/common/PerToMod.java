@@ -20,6 +20,7 @@ public abstract class PerToMod<P, M> {
         for (P tempPer : persistentList) {
             modelList.add(getModelFrom(tempPer));
         }
+
         return modelList;
     }
 }

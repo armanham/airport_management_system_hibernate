@@ -17,6 +17,7 @@ public class ModToPerPassenger extends ModToPer<PassengerMod, PassengerPer> {
         persistent.setName(model.getName());
         persistent.setPhone(model.getPhone());
         persistent.setAddress(MOD_TO_PER_ADDRESS.getPersistentFrom(model.getAddress()));
+
         return persistent;
     }
 }

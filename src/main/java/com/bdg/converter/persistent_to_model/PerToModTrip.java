@@ -9,7 +9,6 @@ public class PerToModTrip extends PerToMod<TripPer, TripMod> {
 
     private static final PerToModCompany PER_TO_MOD_COMPANY = new PerToModCompany();
 
-
     @Override
     public TripMod getModelFrom(TripPer persistent) {
         Validator.checkNull(persistent);

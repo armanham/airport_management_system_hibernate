@@ -14,6 +14,7 @@ public class ModToPerAddress extends ModToPer<AddressMod, AddressPer> {
         AddressPer persistent = new AddressPer();
         persistent.setCountry(model.getCountry());
         persistent.setCity(model.getCity());
+
         return persistent;
     }
 }

@@ -9,7 +9,6 @@ public class PerToModPassenger extends PerToMod<PassengerPer, PassengerMod> {
 
     private final static PerToModAddress PER_TO_MOD_ADDRESS = new PerToModAddress();
 
-
     @Override
     public PassengerMod getModelFrom(PassengerPer persistent) {
         Validator.checkNull(persistent);

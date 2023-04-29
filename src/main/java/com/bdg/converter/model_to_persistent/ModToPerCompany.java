@@ -14,6 +14,7 @@ public class ModToPerCompany extends ModToPer<CompanyMod, CompanyPer> {
         CompanyPer persistent = new CompanyPer();
         persistent.setName(model.getName());
         persistent.setFoundDate(model.getFoundDate());
+
         return persistent;
     }
 }
