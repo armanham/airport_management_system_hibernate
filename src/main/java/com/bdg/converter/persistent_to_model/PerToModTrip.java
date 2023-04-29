@@ -15,6 +15,7 @@ public class PerToModTrip extends PerToMod<TripPer, TripMod> {
         Validator.checkNull(persistent);
 
         TripMod model = new TripMod();
+        model.setId(persistent.getTripNumber());
         model.setCompany(PER_TO_MOD_COMPANY.getModelFrom(persistent.getCompany()));
         model.setAirplane(persistent.getAirplane());
         model.setTownFrom(persistent.getTownFrom());
