@@ -1,5 +1,6 @@
 package com.bdg.converter.model_to_persistent;
 
+import com.bdg.converter.model_to_persistent.common.ModToPer;
 import com.bdg.model.PassInTripMod;
 import com.bdg.persistent.PassInTripPer;
 import com.bdg.validator.Validator;

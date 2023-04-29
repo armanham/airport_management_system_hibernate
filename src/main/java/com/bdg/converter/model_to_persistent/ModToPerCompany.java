@@ -1,5 +1,6 @@
 package com.bdg.converter.model_to_persistent;
 
+import com.bdg.converter.model_to_persistent.common.ModToPer;
 import com.bdg.model.CompanyMod;
 import com.bdg.persistent.CompanyPer;
 import com.bdg.validator.Validator;

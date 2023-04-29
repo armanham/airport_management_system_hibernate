@@ -1,4 +1,4 @@
-package com.bdg.converter.model_to_persistent;
+package com.bdg.converter.model_to_persistent.common;
 
 import com.bdg.validator.Validator;
 
