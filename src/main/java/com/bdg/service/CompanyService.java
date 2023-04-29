@@ -19,7 +19,6 @@ import java.util.Set;
 
 public class CompanyService implements CompanyRepository {
 
-    private Session session;
     private static final ModToPerCompany MOD_TO_PER = new ModToPerCompany();
     private static final PerToModCompany PER_TO_MOD = new PerToModCompany();
 
@@ -28,9 +27,8 @@ public class CompanyService implements CompanyRepository {
     public CompanyMod getBy(int id) {
         Validator.checkId(id);
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try(Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             CompanyPer companyPer = session.get(CompanyPer.class, id);
@@ -45,17 +43,14 @@ public class CompanyService implements CompanyRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
 
     @Override
     public Set<CompanyMod> getAll() {
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try(Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             TypedQuery<CompanyPer> query = session.createQuery("FROM CompanyPer", CompanyPer.class);
@@ -72,8 +67,6 @@ public class CompanyService implements CompanyRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -90,9 +83,8 @@ public class CompanyService implements CompanyRepository {
             throw new IllegalArgumentException("Parameter 'sort' must be 'id' or 'name' or 'found_date': ");
         }
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try(Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             TypedQuery<CompanyPer> query = session.createQuery("FROM CompanyPer order by " + sort);
@@ -112,8 +104,6 @@ public class CompanyService implements CompanyRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -122,9 +112,8 @@ public class CompanyService implements CompanyRepository {
     public CompanyMod save(CompanyMod item) {
         Validator.checkNull(item);
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try(Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             CompanyPer companyPer = MOD_TO_PER.getPersistentFrom(item);
@@ -137,8 +126,6 @@ public class CompanyService implements CompanyRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -148,9 +135,8 @@ public class CompanyService implements CompanyRepository {
         Validator.checkId(id);
         Validator.checkNull(item);
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try(Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             CompanyPer companyPer = session.get(CompanyPer.class, id);
@@ -168,8 +154,6 @@ public class CompanyService implements CompanyRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -183,9 +167,8 @@ public class CompanyService implements CompanyRepository {
             return false;
         }
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try(Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             CompanyPer companyPer = session.get(CompanyPer.class, id);
@@ -202,8 +185,6 @@ public class CompanyService implements CompanyRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -212,7 +193,7 @@ public class CompanyService implements CompanyRepository {
         Validator.checkId(companyId);
 
         Transaction transaction = null;
-        try {
+        try(Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             String hql = "select t from TripPer as t where t.company = :companyId";
