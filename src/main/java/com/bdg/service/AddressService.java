@@ -19,7 +19,6 @@ import java.util.Set;
 
 public class AddressService implements AddressRepository {
 
-    private Session session;
     private static final ModToPerAddress MOD_TO_PER = new ModToPerAddress();
     private static final PerToModAddress PER_TO_MOD = new PerToModAddress();
 
@@ -53,9 +52,8 @@ public class AddressService implements AddressRepository {
     public AddressMod getBy(int id) {
         Validator.checkId(id);
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             AddressPer addressPer = session.get(AddressPer.class, id);
@@ -70,18 +68,14 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
 
     @Override
     public Set<AddressMod> getAll() {
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             TypedQuery<AddressPer> query = session.createQuery("FROM AddressPer", AddressPer.class);
@@ -98,8 +92,6 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -116,9 +108,8 @@ public class AddressService implements AddressRepository {
             throw new IllegalArgumentException("Parameter 'sort' must be 'id' or 'country' or 'city': ");
         }
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             TypedQuery<AddressPer> query = session.createQuery("FROM AddressPer order by " + sort);
@@ -137,8 +128,6 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -153,9 +142,8 @@ public class AddressService implements AddressRepository {
 
         AddressPer addressPer = MOD_TO_PER.getPersistentFrom(item);
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             session.save(addressPer);
@@ -167,8 +155,6 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -177,9 +163,8 @@ public class AddressService implements AddressRepository {
     public boolean updateBy(int id, String newCountry, String newCity) {
         Validator.checkId(id);
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             AddressPer addressPer = session.get(AddressPer.class, id);
@@ -201,8 +186,6 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -216,9 +199,8 @@ public class AddressService implements AddressRepository {
             return false;
         }
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             AddressPer addressPer = session.get(AddressPer.class, id);
@@ -234,8 +216,6 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 
@@ -243,9 +223,8 @@ public class AddressService implements AddressRepository {
     private boolean existsPassengerBy(int addressId) {
         Validator.checkId(addressId);
 
-        session = HibernateUtil.getSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateUtil.getSession()) {
             transaction = session.beginTransaction();
 
             String hql = "select p from PassengerPer as p where p.address = :addressId";
@@ -258,8 +237,6 @@ public class AddressService implements AddressRepository {
             assert transaction != null;
             transaction.rollback();
             throw new RuntimeException(e);
-        } finally {
-            session.close();
         }
     }
 }
