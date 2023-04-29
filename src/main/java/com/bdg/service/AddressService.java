@@ -13,7 +13,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.TypedQuery;
-import java.util.List;
 import java.util.Set;
 
 
@@ -80,14 +79,13 @@ public class AddressService implements AddressRepository {
 
             TypedQuery<AddressPer> query = session.createQuery("FROM AddressPer", AddressPer.class);
 
-            List<AddressPer> addressPerList = query.getResultList();
-            if (addressPerList.isEmpty()) {
+            if (query.getResultList().isEmpty()) {
                 transaction.rollback();
                 return null;
             }
 
             transaction.commit();
-            return (Set<AddressMod>) PER_TO_MOD.getModelListFrom(addressPerList);
+            return (Set<AddressMod>) PER_TO_MOD.getModelListFrom(query.getResultList());
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
@@ -116,14 +114,13 @@ public class AddressService implements AddressRepository {
             query.setFirstResult(offset);
             query.setMaxResults(perPage);
 
-            List<AddressPer> addressPerList = query.getResultList();
-            if (addressPerList.isEmpty()) {
+            if (query.getResultList().isEmpty()) {
                 transaction.rollback();
                 return null;
             }
 
             transaction.commit();
-            return (Set<AddressMod>) PER_TO_MOD.getModelListFrom(addressPerList);
+            return (Set<AddressMod>) PER_TO_MOD.getModelListFrom(query.getResultList());
         } catch (HibernateException e) {
             assert transaction != null;
             transaction.rollback();
