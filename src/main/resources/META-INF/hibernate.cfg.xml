@@ -10,15 +10,15 @@
         <property name="hibernate.connection.password">2232</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/hibernate_db</property>
 
-        <property name="hbm2ddl.auto">create</property>
+        <property name="hbm2ddl.auto">update</property>
 
         <property name="show_sql">true</property>
 
-        <mapping class="com.bdg.persistent.AddressPer"/>
-        <mapping class="com.bdg.persistent.CompanyPer"/>
-        <mapping class="com.bdg.persistent.PassengerPer"/>
-        <mapping class="com.bdg.persistent.TripPer"/>
-        <mapping class="com.bdg.persistent.PassInTripPer"/>
-        <mapping class="com.bdg.persistent.common.BaseEntity"/>
+        <mapping class="com.bdg.ax2sap.airport_management_system.persistent.AddressPer"/>
+        <mapping class="com.bdg.ax2sap.airport_management_system.persistent.CompanyPer"/>
+        <mapping class="com.bdg.ax2sap.airport_management_system.persistent.PassengerPer"/>
+        <mapping class="com.bdg.ax2sap.airport_management_system.persistent.TripPer"/>
+        <mapping class="com.bdg.ax2sap.airport_management_system.persistent.PassInTripPer"/>
+        <mapping class="com.bdg.ax2sap.airport_management_system.persistent.common.BaseEntity"/>
     </session-factory>
 </hibernate-configuration>
